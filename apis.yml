@@ -1,0 +1,516 @@
+aid: alphasense
+url: https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/apis.yml
+name: AlphaSense
+kind: company
+description: >-
+  AlphaSense is an AI-powered market intelligence and search platform used by
+  hedge funds, banks, corporates, consulting firms, and law firms to accelerate
+  research and decision-making. The platform unifies 500M+ public and private
+  documents - SEC filings, broker research from 1,500+ firms, news, earnings
+  call transcripts, internal company content, and 260,000+ Tegus expert call
+  transcripts (Tegus was acquired in December 2023 for ~$930M) - behind a
+  generative search and agent layer (GenSearch, Deep Research, Workflow
+  Agents). The developer surface is gated, enterprise-only, and is split across
+  two contracts: an Agent API for embedding GenSearch / Deep Research / MCP
+  tools into customer AI agents, and a set of Utility APIs (Search, Brokers,
+  Companies, Watchlist, Trends, User, Download, Ingestion) for direct
+  programmatic access. Both are exposed over a single OAuth 2.0-protected
+  GraphQL endpoint at https://api.alpha-sense.com/gql, with a companion REST
+  Ingestion API for Enterprise Intelligence customers. AlphaSense Enterprise
+  Intelligence Private Cloud ships with a public Go CLI
+  (AlphaSense-Engineering/privatecloud-cli) for installing and validating the
+  Kubernetes-hosted environment in a customer's own VPC.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Market Intelligence
+  - Financial Research
+  - Search
+  - Generative AI
+  - AI Agents
+  - Expert Calls
+  - Document Intelligence
+  - Enterprise Intelligence
+  - MCP
+  - GraphQL
+created: '2026-05-23'
+modified: '2026-05-23'
+specificationVersion: '0.19'
+apis:
+  - aid: alphasense:agent-api
+    name: AlphaSense Agent API
+    description: >-
+      GraphQL surface for embedding AlphaSense intelligence into customer AI
+      agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes),
+      Workflow Agents (pre-built and custom), and the Document Search API
+      behind a single OAuth 2.0 + API-key-protected /gql endpoint. Returns
+      markdown-formatted answers with inline citations to the underlying
+      AlphaSense source documents (filings, transcripts, broker research,
+      Tegus calls). Designed for agentic workflows that need first-result in
+      under five minutes.
+    humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - GraphQL
+      - Generative AI
+      - Agents
+      - GenSearch
+      - Deep Research
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/agent-api/quickstart
+      - type: Authentication
+        url: https://developer.alpha-sense.com/api/getting-started
+      - type: OpenAPI
+        url: openapi/alphasense-agent-api-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/agent-api-gensearch.yaml
+      - type: NaftikoCapability
+        url: capabilities/agent-api-deep-research.yaml
+      - type: NaftikoCapability
+        url: capabilities/agent-api-workflow-agents.yaml
+      - type: JSONSchema
+        url: json-schema/alphasense-gensearch-conversation-schema.json
+      - type: JSONSchema
+        url: json-schema/alphasense-citation-schema.json
+      - type: JSONSchema
+        url: json-schema/alphasense-workflow-agent-schema.json
+      - type: JSONStructure
+        url: json-structure/alphasense-gensearch-conversation-structure.json
+      - type: JSONStructure
+        url: json-structure/alphasense-citation-structure.json
+      - type: JSONStructure
+        url: json-structure/alphasense-workflow-agent-structure.json
+      - type: Example
+        url: examples/alphasense-gensearch-conversation-example.json
+      - type: Example
+        url: examples/alphasense-citation-example.json
+      - type: Example
+        url: examples/alphasense-workflow-agent-example.json
+  - aid: alphasense:search-api
+    name: AlphaSense Search API
+    description: >-
+      GraphQL search over the full AlphaSense content library (500M+ documents
+      spanning SEC filings, broker research from 1,500+ firms, news, earnings
+      call transcripts, and Tegus expert interviews). Supports keyword and
+      semantic filters, date presets, document-type filters, watchlists, and
+      smart synonyms. Operates against the same OAuth-protected /gql endpoint
+      as the Agent API. Used to drive in-app search and retrieval flows that
+      do not need agentic answer synthesis.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - GraphQL
+      - Search
+      - Documents
+      - Retrieval
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+      - type: OpenAPI
+        url: openapi/alphasense-utility-api-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/utility-api-search.yaml
+      - type: JSONSchema
+        url: json-schema/alphasense-document-schema.json
+      - type: JSONStructure
+        url: json-structure/alphasense-document-structure.json
+      - type: Example
+        url: examples/alphasense-document-example.json
+      - type: Example
+        url: examples/alphasense-tegus-document-example.json
+  - aid: alphasense:ingestion-api
+    name: AlphaSense Ingestion API
+    description: >-
+      REST surface (`/services/i/ingestion-api/v1/...`) used by Enterprise
+      Intelligence customers to push their own internal documents - research
+      notes, board decks, CRM exports, meeting transcripts - into AlphaSense
+      so the same GenSearch and Deep Research layer can answer over external
+      market intelligence and internal company content together. Available on
+      SaaS (https://api.alpha-sense.com) and Private Cloud (customer-hosted
+      domain) deployments.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - REST
+      - Ingestion
+      - Enterprise Intelligence
+      - Internal Content
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+      - type: OpenAPI
+        url: openapi/alphasense-utility-api-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/utility-api-ingestion.yaml
+      - type: JSONSchema
+        url: json-schema/alphasense-ingestion-job-schema.json
+      - type: JSONStructure
+        url: json-structure/alphasense-ingestion-job-structure.json
+      - type: Example
+        url: examples/alphasense-ingestion-job-example.json
+  - aid: alphasense:companies-api
+    name: AlphaSense Companies API
+    description: >-
+      GraphQL operations for resolving and enriching companies in the
+      AlphaSense entity graph - ticker / name / CIK / ISIN lookup, parent /
+      subsidiary relationships, sector and industry tagging, and references
+      that join into Search and GenSearch filters.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - Companies
+      - Entities
+      - Reference Data
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+      - type: OpenAPI
+        url: openapi/alphasense-utility-api-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/utility-api-companies.yaml
+      - type: JSONSchema
+        url: json-schema/alphasense-company-schema.json
+      - type: JSONStructure
+        url: json-structure/alphasense-company-structure.json
+      - type: Example
+        url: examples/alphasense-company-example.json
+  - aid: alphasense:brokers-api
+    name: AlphaSense Brokers API
+    description: >-
+      Lookup and metadata for the 1,500+ broker research firms whose content
+      AlphaSense licenses. Resolves broker identifiers used by the Search API
+      and exposes coverage signals for analysts filtering by source.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - Brokers
+      - Research
+      - Reference Data
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+      - type: OpenAPI
+        url: openapi/alphasense-utility-api-openapi.yml
+      - type: JSONSchema
+        url: json-schema/alphasense-broker-schema.json
+      - type: JSONStructure
+        url: json-structure/alphasense-broker-structure.json
+      - type: Example
+        url: examples/alphasense-broker-example.json
+  - aid: alphasense:watchlist-api
+    name: AlphaSense Watchlist API
+    description: >-
+      Create, read, update, and delete user watchlists - persisted bundles of
+      companies, tickers, and saved searches that drive personalized alerts,
+      digests, and re-ranked Search results.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - Watchlists
+      - Personalization
+      - Alerts
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+      - type: OpenAPI
+        url: openapi/alphasense-utility-api-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/utility-api-watchlist.yaml
+      - type: JSONSchema
+        url: json-schema/alphasense-watchlist-schema.json
+      - type: JSONStructure
+        url: json-structure/alphasense-watchlist-structure.json
+      - type: Example
+        url: examples/alphasense-watchlist-example.json
+  - aid: alphasense:trends-api
+    name: AlphaSense Trends API
+    description: >-
+      Time-series operations for theme, keyword, and topic frequency across
+      the document corpus - the back end behind AlphaSense's Trend visualisations
+      and competitive-intelligence dashboards.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - Trends
+      - Analytics
+      - Time Series
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+  - aid: alphasense:user-api
+    name: AlphaSense User API
+    description: >-
+      User and account management operations covering profile, preferences,
+      session, and entitlement metadata for integrating the AlphaSense
+      experience into a host application or single-sign-on flow.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - Users
+      - Accounts
+      - Identity
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+  - aid: alphasense:download-api
+    name: AlphaSense Download / Export API
+    description: >-
+      Bulk export and download operations for documents, search results, and
+      report PDFs - used to push AlphaSense content into downstream data
+      warehouses, vaults, and BI tools.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - Downloads
+      - Export
+      - Bulk
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+  - aid: alphasense:authentication-api
+    name: AlphaSense Authentication API
+    description: >-
+      OAuth 2.0 password-grant token endpoint at POST /auth. Clients submit
+      email, password, client_id, and client_secret together with an x-api-key
+      header to receive a bearer token used on every subsequent Agent or
+      Utility API call. The same flow works against SaaS
+      (https://api.alpha-sense.com) and Private Cloud
+      (https://{your-domain}/) base URLs.
+    humanURL: https://developer.alpha-sense.com/api/getting-started
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - Authentication
+      - OAuth 2.0
+      - Token
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/api/getting-started
+      - type: OpenAPI
+        url: openapi/alphasense-agent-api-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/agent-api-authentication.yaml
+      - type: Example
+        url: examples/alphasense-auth-token-example.json
+  - aid: alphasense:mcp-server
+    name: AlphaSense MCP Server
+    description: >-
+      Model Context Protocol surface that lets MCP-aware AI clients (Claude,
+      Cursor, ChatGPT-style desktop hosts, in-house agent frameworks) call
+      GenSearch, ThinkLonger, and Deep Research as tools without writing a
+      bespoke GraphQL integration. The MCP server brokers the OAuth flow and
+      enforces the customer's Agent API entitlement.
+    humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+    baseURL: https://api.alpha-sense.com
+    tags:
+      - MCP
+      - Model Context Protocol
+      - Agents
+      - Tools
+    properties:
+      - type: Documentation
+        url: https://developer.alpha-sense.com/agent-api/quickstart
+  - aid: alphasense:privatecloud-cli
+    name: AlphaSense Private Cloud CLI
+    description: >-
+      Go-based CLI (AlphaSense-Engineering/privatecloud-cli, Apache-2.0-ish
+      "Other" license) used by Enterprise Intelligence Private Cloud
+      customers to bootstrap and validate the Kubernetes cluster that hosts
+      AlphaSense inside their own cloud account. Ships `check` and `install`
+      commands that lay down Crossplane and platform namespaces, generate the
+      required ServiceAccounts, Roles, ClusterRoles, and Pods, and reconcile
+      against per-version compatibility matrices.
+    humanURL: https://github.com/AlphaSense-Engineering/privatecloud-cli
+    baseURL: https://github.com/AlphaSense-Engineering/privatecloud-cli
+    tags:
+      - CLI
+      - Private Cloud
+      - Kubernetes
+      - Enterprise Intelligence
+    properties:
+      - type: GitHubRepository
+        url: https://github.com/AlphaSense-Engineering/privatecloud-cli
+      - type: ReleaseNotes
+        url: https://github.com/AlphaSense-Engineering/privatecloud-cli/releases
+common:
+  - type: Website
+    url: https://www.alpha-sense.com/
+  - type: DeveloperPortal
+    url: https://developer.alpha-sense.com/
+  - type: Documentation
+    url: https://developer.alpha-sense.com/
+  - type: GettingStarted
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: Quickstart
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: GitHubOrganization
+    url: https://github.com/AlphaSense-Engineering
+  - type: TrustCenter
+    url: https://trust.alpha-sense.com/
+  - type: Support
+    url: https://help.alpha-sense.com/
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/alphasense
+  - type: Plans
+    url: plans/alphasense-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/alphasense-rate-limits.yml
+  - type: FinOps
+    url: finops/alphasense-finops.yml
+  - type: SpectralRules
+    url: rules/alphasense-rules.yml
+  - type: Vocabulary
+    url: vocabulary/alphasense-vocabulary.yml
+  - type: JSONLD
+    url: json-ld/alphasense-context.jsonld
+  - type: Features
+    data:
+      - name: Generative Search (GenSearch)
+        description: >-
+          Multi-agent search-and-answer layer over 500M+ documents with auto,
+          fast, ThinkLonger, and Deep Research reasoning modes.
+      - name: Deep Research
+        description: >-
+          Long-horizon agent that decomposes a research question, plans steps,
+          searches across filings / transcripts / broker research / Tegus
+          expert calls, and returns a markdown report with inline citations.
+      - name: Workflow Agents
+        description: >-
+          Pre-built and custom agents addressable by ID for repeatable
+          research tasks (earnings prep, competitor scan, KOL mapping, etc.).
+      - name: Tegus Expert Insights
+        description: >-
+          260,000+ private expert-call transcripts, on-demand expert
+          interviews, and the Tegus expert network - integrated into search
+          and Deep Research after the December 2023 acquisition.
+      - name: Enterprise Intelligence
+        description: >-
+          Search the same generative layer over a customer's internal
+          documents (decks, CRM, notes) alongside the external AlphaSense
+          corpus.
+      - name: Enterprise Intelligence Private Cloud
+        description: >-
+          Customer-hosted Kubernetes deployment for regulated buyers; managed
+          via the public privatecloud-cli.
+      - name: Financial Data
+        description: >-
+          Structured financial datasets, 4,000+ pre-built financial models,
+          and analyst-grade fundamentals integrated with the search layer.
+      - name: Smart Synonyms
+        description: >-
+          Domain-tuned query expansion that maps tickers, business jargon,
+          and industry terms to the right document language.
+      - name: Inline Citations
+        description: >-
+          Every GenSearch / Deep Research answer ships with traceable
+          citations back to the underlying document, page, and span.
+  - type: UseCases
+    data:
+      - name: Sell-Side Investment Banking
+        description: >-
+          Pitch prep, comparables analysis, M&A target screening, and
+          earnings-call review for bankers.
+      - name: Hedge Fund Research
+        description: >-
+          Idea generation, thesis monitoring, and competitive tracking across
+          public filings, broker research, and Tegus expert calls.
+      - name: Private Equity Diligence
+        description: >-
+          Industry primers, KOL identification, and management-quality
+          assessment via expert interviews.
+      - name: Asset Management
+        description: >-
+          Coverage scaling for analysts who must monitor a long tail of names
+          and themes.
+      - name: Venture Capital
+        description: >-
+          Market sizing, founder background, and category-comp scans for
+          early-stage diligence.
+      - name: Corporate Strategy & CI
+        description: >-
+          Competitor surveillance, market-trend tracking, and board-pack
+          preparation for in-house strategy teams.
+      - name: Consulting Engagements
+        description: >-
+          Engagement primers, hypothesis testing, and expert sourcing across
+          McKinsey-style project workflows.
+      - name: Law Firm Research
+        description: >-
+          Litigation research, regulatory landscape mapping, and matter
+          intelligence.
+      - name: Agentic Research Automation
+        description: >-
+          Programmatic GenSearch / Deep Research calls from customer-built
+          agents over the Agent API or MCP server.
+  - type: Integrations
+    data:
+      - name: Snowflake
+        description: >-
+          Push and query AlphaSense-derived content alongside the customer's
+          warehouse via Enterprise Intelligence ingestion + export.
+      - name: Microsoft 365 / SharePoint
+        description: >-
+          Pull internal documents from SharePoint and Microsoft 365 into
+          Enterprise Intelligence for unified search.
+      - name: Tegus Expert Network
+        description: >-
+          Native integration with Tegus's expert-call transcript library and
+          on-demand expert services (post-acquisition).
+      - name: BamSEC
+        description: >-
+          SEC filing search and analytics (acquired) folded into the unified
+          search index.
+      - name: Canalyst
+        description: >-
+          Pre-built financial models and equity datasets (acquired) used in
+          financial analysis.
+      - name: Sentieo
+        description: >-
+          Document search and financial workflow (acquired) consolidated
+          into the AlphaSense platform.
+      - name: Cerebras Systems
+        description: >-
+          2025 partnership accelerating inference for AlphaSense's
+          generative-AI layer.
+      - name: Model Context Protocol (MCP) Clients
+        description: >-
+          Any MCP-aware host (Claude, Cursor, in-house agent frameworks) can
+          call GenSearch / ThinkLonger / Deep Research as tools.
+      - name: Kubernetes (Private Cloud)
+        description: >-
+          Customer-managed Kubernetes (EKS / GKE / AKS) provisioned via the
+          privatecloud-cli for regulated and air-gapped buyers.
+  - type: Solutions
+    data:
+      - name: AlphaSense Platform
+        description: >-
+          Core SaaS search and intelligence product for the full customer
+          base.
+      - name: Enterprise Intelligence
+        description: >-
+          Search + GenSearch across both AlphaSense's external corpus and
+          the customer's internal documents.
+      - name: Enterprise Intelligence Private Cloud
+        description: >-
+          Same product, deployed into the customer's own Kubernetes cluster
+          for compliance-bound buyers.
+      - name: Tegus Expert Insights
+        description: >-
+          Expert-call transcript library and on-demand expert services from
+          the Tegus side of the business.
+      - name: Tegus Expert Call Services
+        description: >-
+          Concierge sourcing and scheduling of one-off expert interviews on
+          behalf of the customer.
+      - name: Generative Search Suite
+        description: >-
+          GenSearch + Deep Research + Workflow Agents bundle aimed at AI-led
+          research workflows.
+      - name: Agent API + MCP
+        description: >-
+          Embedding contract for customers building their own agents on top
+          of the AlphaSense corpus.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

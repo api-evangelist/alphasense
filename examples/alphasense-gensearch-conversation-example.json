@@ -1,0 +1,22 @@
+{
+  "id": "conv-2026-05-23-abc123",
+  "mode": "auto",
+  "progress": 1.0,
+  "answer": "Apple's Q4 2024 results showed revenue of $94.9B (+6% YoY) driven by Services and iPhone strength [1]. Management guided to mid-single-digit growth for Q1 2025 [2]...",
+  "citations": [
+    {
+      "documentId": "as-doc-12345",
+      "title": "Apple Inc. (AAPL) Q4 2024 Earnings Call Transcript",
+      "sourceType": "transcript",
+      "url": "https://research.alpha-sense.com/document/as-doc-12345",
+      "snippet": "Revenue of $94.9 billion, up 6 percent year over year..."
+    },
+    {
+      "documentId": "as-doc-12399",
+      "title": "Apple Inc. - Q4 2024 10-K",
+      "sourceType": "filing",
+      "url": "https://research.alpha-sense.com/document/as-doc-12399",
+      "snippet": "Services net sales were $24.97 billion, an increase of 13 percent..."
+    }
+  ]
+}

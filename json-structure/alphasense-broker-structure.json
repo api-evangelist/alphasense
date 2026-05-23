@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-structure/alphasense-broker-structure.json",
+  "name": "Broker",
+  "description": "A research firm whose published research is indexed in AlphaSense.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "country": { "type": "string" },
+    "coverage": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["id", "name"]
+}

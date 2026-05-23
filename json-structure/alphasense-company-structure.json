@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-structure/alphasense-company-structure.json",
+  "name": "Company",
+  "description": "A company entity in the AlphaSense reference graph.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "ticker": { "type": "string" },
+    "cik": { "type": "string" },
+    "isin": { "type": "string" },
+    "sector": { "type": "string" },
+    "industry": { "type": "string" }
+  },
+  "required": ["id", "name"]
+}

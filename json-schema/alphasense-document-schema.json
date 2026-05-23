@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-schema/alphasense-document-schema.json",
+  "title": "Document",
+  "description": "A single document indexed in the AlphaSense corpus - filing, broker research, news article, earnings call transcript, Tegus expert call, or customer-ingested Enterprise Intelligence document.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "AlphaSense document identifier."
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable document title."
+    },
+    "releasedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Document publication or release timestamp."
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": ["filing", "broker", "transcript", "tegus", "news", "internal"],
+      "description": "Source class. 'internal' indicates a customer Enterprise Intelligence upload."
+    },
+    "companies": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "AlphaSense company identifiers tagged on the document."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URL for the document inside AlphaSense."
+    }
+  },
+  "required": ["id", "title", "sourceType"]
+}

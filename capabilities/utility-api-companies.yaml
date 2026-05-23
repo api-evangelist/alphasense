@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AlphaSense Utility API — Companies
+  description: 'AlphaSense Utility API — Companies. 2 operations. Lead operation: Resolve An AlphaSense Company By Ticker
+    Or Name. Self-contained Naftiko capability covering one alphasense business surface.'
+  tags:
+  - alphasense
+  - Utility API
+  - Companies
+  - Reference Data
+  created: '2026-05-23'
+  modified: '2026-05-23'
+binds:
+- namespace: env
+  keys:
+    ALPHASENSE_API_KEY: ALPHASENSE_API_KEY
+    ALPHASENSE_BEARER_TOKEN: ALPHASENSE_BEARER_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: utility-api-companies
+    baseUri: https://api.alpha-sense.com
+    description: AlphaSense Utility API — Companies business capability. Self-contained, no shared references.
+    resources:
+    - name: gql
+      path: /gql
+      operations:
+      - name: resolvecompany
+        method: POST
+        description: Resolve An AlphaSense Company By Ticker, Name, CIK, Or ISIN.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getcompany
+        method: POST
+        description: Get An AlphaSense Company By Id With Sector And Industry Metadata.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.ALPHASENSE_BEARER_TOKEN}}'
+  exposes:
+  - type: rest
+    namespace: utility-api-companies-rest
+    port: 8080
+    description: REST adapter for AlphaSense Utility API — Companies. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/companies/resolve
+      name: companies-resolve
+      description: REST surface for AlphaSense company resolution.
+      operations:
+      - method: POST
+        name: resolvecompany
+        description: Resolve An AlphaSense Company.
+        call: utility-api-companies.resolvecompany
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/companies/{companyId}
+      name: companies-detail
+      description: REST surface for company detail.
+      operations:
+      - method: GET
+        name: getcompany
+        description: Get An AlphaSense Company By Id.
+        call: utility-api-companies.getcompany
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: utility-api-companies-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AlphaSense Utility API — Companies. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: alphasense-resolve-company
+      description: Resolve An AlphaSense Company By Ticker, Name, CIK, Or ISIN.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: utility-api-companies.resolvecompany
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: alphasense-get-company
+      description: Get An AlphaSense Company By Id.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: utility-api-companies.getcompany
+      outputParameters:
+      - type: object
+        mapping: $.

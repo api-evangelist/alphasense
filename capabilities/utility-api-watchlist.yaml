@@ -1,0 +1,152 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AlphaSense Utility API — Watchlist
+  description: 'AlphaSense Utility API — Watchlist. 4 operations. Lead operation: List User Watchlists. Self-contained
+    Naftiko capability covering one alphasense business surface.'
+  tags:
+  - alphasense
+  - Utility API
+  - Watchlist
+  - Personalization
+  created: '2026-05-23'
+  modified: '2026-05-23'
+binds:
+- namespace: env
+  keys:
+    ALPHASENSE_API_KEY: ALPHASENSE_API_KEY
+    ALPHASENSE_BEARER_TOKEN: ALPHASENSE_BEARER_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: utility-api-watchlist
+    baseUri: https://api.alpha-sense.com
+    description: AlphaSense Utility API — Watchlist business capability. Self-contained, no shared references.
+    resources:
+    - name: gql
+      path: /gql
+      operations:
+      - name: listwatchlists
+        method: POST
+        description: List User Watchlists.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createwatchlist
+        method: POST
+        description: Create A New Watchlist For The Calling User.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatewatchlist
+        method: POST
+        description: Update An Existing Watchlist By Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletewatchlist
+        method: POST
+        description: Delete A Watchlist By Id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.ALPHASENSE_BEARER_TOKEN}}'
+  exposes:
+  - type: rest
+    namespace: utility-api-watchlist-rest
+    port: 8080
+    description: REST adapter for AlphaSense Utility API — Watchlist. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/watchlists
+      name: watchlists
+      description: REST surface for the watchlists collection.
+      operations:
+      - method: GET
+        name: listwatchlists
+        description: List User Watchlists.
+        call: utility-api-watchlist.listwatchlists
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createwatchlist
+        description: Create A New Watchlist.
+        call: utility-api-watchlist.createwatchlist
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/watchlists/{watchlistId}
+      name: watchlist-item
+      description: REST surface for a single watchlist.
+      operations:
+      - method: PUT
+        name: updatewatchlist
+        description: Update An Existing Watchlist By Id.
+        call: utility-api-watchlist.updatewatchlist
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletewatchlist
+        description: Delete A Watchlist By Id.
+        call: utility-api-watchlist.deletewatchlist
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: utility-api-watchlist-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AlphaSense Utility API — Watchlist. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: alphasense-list-watchlists
+      description: List User Watchlists.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: utility-api-watchlist.listwatchlists
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: alphasense-create-watchlist
+      description: Create A New Watchlist.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: utility-api-watchlist.createwatchlist
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: alphasense-update-watchlist
+      description: Update An Existing Watchlist.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: utility-api-watchlist.updatewatchlist
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: alphasense-delete-watchlist
+      description: Delete A Watchlist.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: utility-api-watchlist.deletewatchlist
+      outputParameters:
+      - type: object
+        mapping: $.

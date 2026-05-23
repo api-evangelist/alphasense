@@ -1,0 +1,14 @@
+{
+  "id": "wfa-earnings-prep",
+  "name": "Earnings Preparation Agent",
+  "description": "Pre-built workflow agent that pulls last-quarter results, current-quarter consensus, recent broker revisions, and Tegus expert call themes for a single ticker.",
+  "inputs": {
+    "ticker": "AAPL",
+    "asOfDate": "2026-05-23"
+  },
+  "outputs": {
+    "summary": "string (markdown)",
+    "keyMetrics": "object",
+    "citations": "array of Citation"
+  }
+}

@@ -1,0 +1,90 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: AlphaSense
+providerId: alphasense
+created: '2026-05-23'
+modified: '2026-05-23'
+reconciled: false
+tags:
+  - Market Intelligence
+  - Search
+  - Generative AI
+  - Agents
+  - GraphQL
+  - Rate Limiting
+  - Credits
+description: >-
+  AlphaSense does not publish numeric per-second or per-minute rate limits for
+  the Agent API or Utility APIs in the public developer portal. The
+  developer.alpha-sense.com documentation references a "Credits & Rate Limits"
+  section that governs GenSearch and Deep Research consumption, but the credit
+  pricing, monthly allowance, and throttling ceiling are negotiated per
+  customer contract. Standard HTTP 4xx/5xx response codes are applied; 429 is
+  returned on credit-pool or burst exhaustion. The /auth bearer token has a
+  finite lifetime and must be refreshed. This artifact stays reconciled:false
+  until paired with a real customer contract.
+sources:
+  - https://developer.alpha-sense.com/api/getting-started
+  - https://developer.alpha-sense.com/agent-api/quickstart
+responseCodes:
+  throttled: 429
+  unauthorized: 401
+  serverError: 5xx
+limits:
+  - name: GenSearch / Deep Research Credit Pool
+    scope: customer
+    metric: credit
+    limit: contracted
+    timeFrame: month
+    notes: >-
+      Generative calls (GenSearch in any mode, Deep Research, Workflow Agents
+      invoking generative steps) draw from a contracted monthly credit pool.
+      Exhausting the pool returns 429 and requires top-up or contract uplift.
+  - name: GraphQL Burst (per-customer)
+    scope: customer
+    metric: requests
+    limit: contracted
+    timeFrame: minute
+    notes: >-
+      Per-customer burst throttling on the shared /gql endpoint. Numeric
+      ceiling not published; behaviour returns 429 on excessive throughput.
+  - name: Ingestion Throughput
+    scope: customer
+    metric: documents
+    limit: contracted
+    timeFrame: hour
+    notes: >-
+      Enterprise Intelligence ingestion runs against a contracted ingestion
+      quota; large initial loads are typically scheduled with Solutions
+      Engineering.
+  - name: Bearer Token Lifetime
+    scope: session
+    metric: token
+    limit: short-lived
+    timeFrame: hour
+    notes: >-
+      /auth returns a bearer token with a finite expires_in. Clients must
+      refresh the token (or re-authenticate) before expiry.
+policies:
+  - name: 429 Throttling
+    description: >-
+      AlphaSense returns 429 on burst exhaustion or credit-pool exhaustion.
+      Implement exponential backoff with jitter and treat persistent 429s as a
+      signal to renegotiate the credit pool.
+  - name: Token Refresh
+    description: >-
+      Refresh the bearer token before expires_in elapses; do not cache
+      indefinitely. Long-running agent workloads should hold a credential
+      manager that re-auths against /auth.
+  - name: Polling Cadence
+    description: >-
+      GenSearch / Deep Research conversations are polled until progress reaches
+      1.0. Recommended cadence is a few seconds per poll; do not tight-loop.
+  - name: Credit Accounting
+    description: >-
+      Deep Research is materially more expensive in credits than fast or auto
+      GenSearch modes. Route the right mode for the question to control burn.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

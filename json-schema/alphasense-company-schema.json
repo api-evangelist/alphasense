@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-schema/alphasense-company-schema.json",
+  "title": "Company",
+  "description": "A company entity in the AlphaSense reference graph. Companies join into Search filters, Watchlist items, and GenSearch citations.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "AlphaSense company identifier." },
+    "name": { "type": "string" },
+    "ticker": { "type": "string" },
+    "cik": { "type": "string", "description": "SEC Central Index Key, when applicable." },
+    "isin": { "type": "string" },
+    "sector": { "type": "string" },
+    "industry": { "type": "string" }
+  },
+  "required": ["id", "name"]
+}

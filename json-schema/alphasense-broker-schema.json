@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-schema/alphasense-broker-schema.json",
+  "title": "Broker",
+  "description": "A research firm / broker whose published research is indexed in AlphaSense (1,500+ partners).",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "country": { "type": "string" },
+    "coverage": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["id", "name"]
+}

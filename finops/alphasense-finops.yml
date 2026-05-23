@@ -1,0 +1,153 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: AlphaSense
+providerId: alphasense
+created: '2026-05-23'
+modified: '2026-05-23'
+reconciled: false
+tags:
+  - Market Intelligence
+  - Search
+  - Generative AI
+  - Agents
+  - Tegus
+  - Enterprise Intelligence
+  - FinOps
+  - FOCUS
+description: >-
+  FOCUS-aligned FinOps view of AlphaSense. The dominant cost is named-seat
+  subscription against the AlphaSense Platform, with add-on lines for Tegus
+  Expert Insights, Tegus expert call services (per-call), Enterprise
+  Intelligence ingestion + storage, Enterprise Intelligence Private Cloud
+  platform fee, and the Agent API + MCP embedding contract (platform fee plus
+  per-credit consumption for GenSearch / Deep Research). The Private Cloud
+  CLI is free. Specific seat, credit, and per-document rates are negotiated
+  and not published, so this artifact stays reconciled:false until paired
+  with a real customer contract.
+sources:
+  - https://www.alpha-sense.com/
+  - https://developer.alpha-sense.com/
+  - https://developer.alpha-sense.com/api/getting-started
+  - https://developer.alpha-sense.com/agent-api/quickstart
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: AlphaSense, Inc.
+serviceCategory: Market Intelligence
+billingModel:
+  pricingCategory: Named-Seat Subscription + Add-Ons + Per-Credit Generative AI
+  billingFrequency: Annual / Monthly
+  billingCurrency: USD
+  chargeCategories:
+    - Purchase
+    - Usage
+    - Adjustment
+    - Tax
+    - Credit
+focusColumns:
+  ServiceName: AlphaSense Platform
+  ServiceCategory: Market Intelligence
+  ProviderName: AlphaSense
+  PublisherName: AlphaSense, Inc.
+  InvoiceIssuerName: AlphaSense, Inc.
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+meters:
+  - name: named_seat
+    description: >-
+      Annual named-seat subscription for the core AlphaSense Platform.
+    unit: seat
+    aggregation: max
+    dimensions:
+      - account_id
+      - business_unit
+      - user_id
+  - name: tegus_library
+    description: >-
+      Add-on subscription for Tegus Expert Insights library access.
+    unit: seat
+    aggregation: max
+    dimensions:
+      - account_id
+      - business_unit
+  - name: expert_call
+    description: >-
+      Concierge Tegus expert call services - per-call or pre-purchased pack.
+    unit: call
+    aggregation: sum
+    dimensions:
+      - account_id
+      - project
+  - name: ingested_document
+    description: >-
+      Enterprise Intelligence per-document ingestion line.
+    unit: document
+    aggregation: sum
+    dimensions:
+      - account_id
+      - source_system
+  - name: internal_storage
+    description: >-
+      Storage line for internal Enterprise Intelligence content.
+    unit: gb_month
+    aggregation: avg
+    dimensions:
+      - account_id
+  - name: privatecloud_platform
+    description: >-
+      Annual platform fee for Enterprise Intelligence Private Cloud.
+    unit: year
+    aggregation: max
+    dimensions:
+      - account_id
+      - environment
+  - name: agent_api_platform
+    description: >-
+      Annual platform fee for the Agent API + MCP embedding contract.
+    unit: year
+    aggregation: max
+    dimensions:
+      - account_id
+  - name: gensearch_credit
+    description: >-
+      Per-credit consumption against the GenSearch / Deep Research credit pool.
+      Deep Research is materially more expensive than fast / auto GenSearch.
+    unit: credit
+    aggregation: sum
+    dimensions:
+      - account_id
+      - api_caller
+      - gensearch_mode
+principles:
+  - name: Visibility
+    description: >-
+      Pull the AlphaSense admin usage report and reconcile against the
+      per-seat, per-credit, and per-document meters. Track GenSearch credit
+      burn by mode (auto / fast / thinkLonger / deepResearch) so customers
+      can see where the spend goes.
+  - name: Allocation
+    description: >-
+      Tag every Agent API caller with a business_unit and project so
+      cross-charge against internal teams is clean. Separate test and
+      production environments to keep canary GenSearch credit burn out of
+      the production line.
+  - name: Optimization
+    description: >-
+      Route the right GenSearch mode to the right question - auto / fast for
+      lookup, thinkLonger for synthesis, deepResearch only for true multi-step
+      analyses. Cache and re-use Deep Research outputs. Move expert-call
+      consumption from concierge per-call to the Tegus library wherever the
+      already-recorded transcript covers the question. For Enterprise
+      Intelligence, batch ingestion at off-hours and prune stale documents.
+  - name: Accountability
+    description: >-
+      Assign an AlphaSense account owner on the customer side. Reconcile
+      against the annual minimum commit and renegotiate add-on bundling
+      (Tegus, Private Cloud, Agent API credits) at renewal.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

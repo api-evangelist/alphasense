@@ -1,0 +1,114 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "alphasense": "https://developer.alpha-sense.com/schemas/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "finreg": "https://www.sec.gov/schemas/",
+
+    "Document": {
+      "@id": "alphasense:Document",
+      "@context": {
+        "id": "schema:identifier",
+        "title": "schema:name",
+        "releasedAt": {
+          "@id": "dcterms:issued",
+          "@type": "xsd:dateTime"
+        },
+        "sourceType": "alphasense:documentSourceType",
+        "companies": {
+          "@id": "alphasense:aboutCompany",
+          "@container": "@set"
+        },
+        "url": "schema:url"
+      }
+    },
+
+    "Company": {
+      "@id": "alphasense:Company",
+      "@type": "schema:Organization",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "ticker": "alphasense:tickerSymbol",
+        "cik": "finreg:cik",
+        "isin": "alphasense:isin",
+        "sector": "alphasense:sector",
+        "industry": "alphasense:industry"
+      }
+    },
+
+    "Broker": {
+      "@id": "alphasense:Broker",
+      "@type": "schema:Organization",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "country": "schema:addressCountry",
+        "coverage": {
+          "@id": "alphasense:coverageSector",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Watchlist": {
+      "@id": "alphasense:Watchlist",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "items": {
+          "@id": "alphasense:watches",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "GenSearchConversation": {
+      "@id": "alphasense:GenSearchConversation",
+      "@context": {
+        "id": "schema:identifier",
+        "mode": "alphasense:reasoningMode",
+        "progress": "alphasense:progress",
+        "answer": "schema:text",
+        "citations": {
+          "@id": "schema:citation",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Citation": {
+      "@id": "schema:Citation",
+      "@context": {
+        "documentId": "schema:identifier",
+        "title": "schema:name",
+        "sourceType": "alphasense:documentSourceType",
+        "url": "schema:url",
+        "snippet": "schema:description"
+      }
+    },
+
+    "WorkflowAgent": {
+      "@id": "alphasense:WorkflowAgent",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "inputs": "alphasense:agentInputs",
+        "outputs": "alphasense:agentOutputs"
+      }
+    },
+
+    "IngestionJob": {
+      "@id": "alphasense:IngestionJob",
+      "@context": {
+        "id": "schema:identifier",
+        "status": "alphasense:jobStatus",
+        "documentId": "alphasense:resultDocument",
+        "message": "schema:description"
+      }
+    }
+  }
+}

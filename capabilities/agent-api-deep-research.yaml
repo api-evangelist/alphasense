@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AlphaSense Agent API — Deep Research
+  description: 'AlphaSense Agent API — Deep Research. 2 operations. Lead operation: Launch An AlphaSense Deep Research Run.
+    Self-contained Naftiko capability covering one alphasense business surface.'
+  tags:
+  - alphasense
+  - Agent API
+  - Deep Research
+  - Generative AI
+  created: '2026-05-23'
+  modified: '2026-05-23'
+binds:
+- namespace: env
+  keys:
+    ALPHASENSE_API_KEY: ALPHASENSE_API_KEY
+    ALPHASENSE_BEARER_TOKEN: ALPHASENSE_BEARER_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: agent-api-deep-research
+    baseUri: https://api.alpha-sense.com
+    description: AlphaSense Agent API — Deep Research business capability. Self-contained, no shared references.
+    resources:
+    - name: gql
+      path: /gql
+      operations:
+      - name: askdeepresearch
+        method: POST
+        description: Launch An AlphaSense Deep Research Run via the deepResearch GenSearch mode.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: polldeepresearch
+        method: POST
+        description: Poll An In-Flight Deep Research Conversation Until Progress Reaches 1.0.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.ALPHASENSE_BEARER_TOKEN}}'
+  exposes:
+  - type: rest
+    namespace: agent-api-deep-research-rest
+    port: 8080
+    description: REST adapter for AlphaSense Agent API — Deep Research. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/deep-research/ask
+      name: deep-research-ask
+      description: REST surface for launching a Deep Research run.
+      operations:
+      - method: POST
+        name: askdeepresearch
+        description: Launch An AlphaSense Deep Research Run.
+        call: agent-api-deep-research.askdeepresearch
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/deep-research/conversations/{conversationId}
+      name: deep-research-conversation
+      description: REST surface for polling a Deep Research run.
+      operations:
+      - method: POST
+        name: polldeepresearch
+        description: Poll An In-Flight Deep Research Conversation.
+        call: agent-api-deep-research.polldeepresearch
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: agent-api-deep-research-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AlphaSense Agent API — Deep Research. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: alphasense-ask-deep-research
+      description: Launch An AlphaSense Deep Research Run.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: agent-api-deep-research.askdeepresearch
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: alphasense-poll-deep-research
+      description: Poll an in-flight Deep Research conversation until progress reaches 1.0.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: agent-api-deep-research.polldeepresearch
+      outputParameters:
+      - type: object
+        mapping: $.

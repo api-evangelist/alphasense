@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-structure/alphasense-ingestion-job-structure.json",
+  "name": "IngestionJob",
+  "description": "Lifecycle envelope for an Enterprise Intelligence ingestion job.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["accepted", "processing", "ready", "failed"]
+    },
+    "documentId": { "type": "string" },
+    "message": { "type": "string" }
+  },
+  "required": ["id", "status"]
+}

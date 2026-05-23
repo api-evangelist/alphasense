@@ -1,0 +1,76 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AlphaSense Agent API — Authentication
+  description: 'AlphaSense Agent API — Authentication. 1 operation. Lead operation: Exchange AlphaSense Credentials For A
+    Bearer Token. Self-contained Naftiko capability covering one alphasense business surface.'
+  tags:
+  - alphasense
+  - Agent API
+  - Authentication
+  created: '2026-05-23'
+  modified: '2026-05-23'
+binds:
+- namespace: env
+  keys:
+    ALPHASENSE_API_KEY: ALPHASENSE_API_KEY
+    ALPHASENSE_CLIENT_ID: ALPHASENSE_CLIENT_ID
+    ALPHASENSE_CLIENT_SECRET: ALPHASENSE_CLIENT_SECRET
+    ALPHASENSE_USERNAME: ALPHASENSE_USERNAME
+    ALPHASENSE_PASSWORD: ALPHASENSE_PASSWORD
+capability:
+  consumes:
+  - type: http
+    namespace: agent-api-authentication
+    baseUri: https://api.alpha-sense.com
+    description: AlphaSense Agent API — Authentication business capability. Self-contained, no shared references.
+    resources:
+    - name: auth
+      path: /auth
+      operations:
+      - name: authenticate
+        method: POST
+        description: Exchange AlphaSense Credentials For A Bearer Token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apiKey
+      header: x-api-key
+      token: '{{env.ALPHASENSE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: agent-api-authentication-rest
+    port: 8080
+    description: REST adapter for AlphaSense Agent API — Authentication. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/auth
+      name: auth
+      description: REST surface for /auth.
+      operations:
+      - method: POST
+        name: authenticate
+        description: Exchange AlphaSense Credentials For A Bearer Token
+        call: agent-api-authentication.authenticate
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: agent-api-authentication-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AlphaSense Agent API — Authentication. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: alphasense-authenticate
+      description: Exchange AlphaSense Credentials For A Bearer Token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: agent-api-authentication.authenticate
+      outputParameters:
+      - type: object
+        mapping: $.

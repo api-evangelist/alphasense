@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-schema/alphasense-workflow-agent-schema.json",
+  "title": "WorkflowAgent",
+  "description": "A pre-built or customer-defined Workflow Agent exposed by the AlphaSense Agent API. Each agent has an id, input contract, and output contract.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "inputs": { "type": "object", "additionalProperties": true },
+    "outputs": { "type": "object", "additionalProperties": true }
+  },
+  "required": ["id", "name"]
+}

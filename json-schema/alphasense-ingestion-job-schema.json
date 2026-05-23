@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-schema/alphasense-ingestion-job-schema.json",
+  "title": "IngestionJob",
+  "description": "Lifecycle envelope for an Enterprise Intelligence ingestion job that loads a customer-owned document into AlphaSense.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["accepted", "processing", "ready", "failed"]
+    },
+    "documentId": {
+      "type": "string",
+      "description": "AlphaSense document identifier produced once ingestion completes."
+    },
+    "message": { "type": "string" }
+  },
+  "required": ["id", "status"]
+}

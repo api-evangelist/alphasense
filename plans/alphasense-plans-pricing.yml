@@ -1,0 +1,156 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: AlphaSense
+providerId: alphasense
+created: '2026-05-23'
+modified: '2026-05-23'
+reconciled: false
+tags:
+  - Market Intelligence
+  - Financial Research
+  - Search
+  - Generative AI
+  - Tegus
+  - Enterprise Intelligence
+  - Plans
+description: >-
+  AlphaSense does not publish self-serve plan pricing. The platform is sold as
+  named-seat enterprise subscriptions that bundle the AlphaSense web experience
+  with optional add-on lines (Tegus Expert Insights, on-demand Tegus expert
+  call services, Enterprise Intelligence, Enterprise Intelligence Private
+  Cloud, Generative Search / Deep Research credits, the Agent API + MCP
+  contract, and the Private Cloud CLI). Pricing is negotiated per customer and
+  scales with seat count, content entitlements, agent / GenSearch credit
+  allowances, and deployment model (SaaS vs Private Cloud). This artifact
+  stays reconciled:false until a specific customer quote is paired with it.
+sources:
+  - https://www.alpha-sense.com/
+  - https://developer.alpha-sense.com/
+  - https://developer.alpha-sense.com/api/getting-started
+  - https://developer.alpha-sense.com/agent-api/quickstart
+  - https://github.com/AlphaSense-Engineering/privatecloud-cli
+plans:
+  - id: alphasense-platform-seats
+    name: AlphaSense Platform (Named-Seat Enterprise)
+    type: enterprise
+    description: >-
+      Core AlphaSense seat-based subscription. Bundles the AlphaSense web
+      experience, Search, the standard generative layer (GenSearch in auto /
+      fast modes), and the standard external content corpus (filings, broker
+      research, news, earnings call transcripts).
+    entries:
+      - label: Named Seat
+        name: named_seat
+        type: subscription
+        metric: seat
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: custom (volume-discounted)
+        userMultiplied: true
+  - id: alphasense-tegus-expert-insights
+    name: Tegus Expert Insights (Add-On)
+    type: enterprise
+    description: >-
+      Add-on for access to the 260,000+ Tegus expert-call transcript library
+      and the Tegus expert network.
+    entries:
+      - label: Tegus Library Access
+        name: tegus_library
+        type: subscription
+        metric: seat
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: custom add-on
+        userMultiplied: true
+  - id: alphasense-tegus-expert-call-services
+    name: Tegus Expert Call Services (Concierge)
+    type: enterprise
+    description: >-
+      Concierge sourcing and scheduling of one-off expert interviews on
+      behalf of the customer. Billed per-call or as a pre-purchased pack.
+    entries:
+      - label: Per Expert Call (Concierge)
+        name: expert_call
+        type: metered
+        metric: call
+        limit: -1
+        timeFrame: usage
+        unit: 1
+        price: custom (per-call or pack)
+        userMultiplied: false
+  - id: alphasense-enterprise-intelligence
+    name: Enterprise Intelligence (Add-On)
+    type: enterprise
+    description: >-
+      Add-on to ingest a customer's own internal documents and search them
+      alongside the external AlphaSense corpus via Search and GenSearch.
+    entries:
+      - label: Per Ingested Document
+        name: ingested_document
+        type: metered
+        metric: document
+        limit: -1
+        timeFrame: usage
+        unit: 1
+        price: custom (tiered)
+        userMultiplied: false
+      - label: Internal Content Storage
+        name: internal_storage
+        type: subscription
+        metric: gb_month
+        limit: -1
+        timeFrame: month
+        unit: 1
+        price: custom (tiered)
+        userMultiplied: false
+  - id: alphasense-enterprise-intelligence-private-cloud
+    name: Enterprise Intelligence Private Cloud
+    type: enterprise
+    description: >-
+      Customer-hosted Kubernetes deployment of Enterprise Intelligence inside
+      the customer's own VPC. Operated via the public privatecloud-cli. Sold
+      with a platform fee plus the same per-document and per-seat lines, and
+      typically requires a minimum annual commit.
+    entries:
+      - label: Private Cloud Platform Fee
+        name: privatecloud_platform
+        type: subscription
+        metric: year
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: custom (large minimum)
+        userMultiplied: false
+  - id: alphasense-agent-api
+    name: Agent API + MCP (Embedding Contract)
+    type: enterprise
+    description: >-
+      Programmatic access contract for embedding AlphaSense GenSearch / Deep
+      Research / Workflow Agents and the MCP server into customer-built AI
+      agents. Sold with a base platform fee and per-credit consumption for
+      generative calls.
+    entries:
+      - label: Agent API Platform Fee
+        name: agent_api_platform
+        type: subscription
+        metric: year
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: custom
+        userMultiplied: false
+      - label: GenSearch / Deep Research Credit
+        name: gensearch_credit
+        type: metered
+        metric: credit
+        limit: -1
+        timeFrame: usage
+        unit: 1
+        price: custom (per-credit)
+        userMultiplied: false
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

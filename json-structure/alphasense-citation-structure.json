@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-structure/alphasense-citation-structure.json",
+  "name": "Citation",
+  "description": "An inline citation attached to a GenSearch or Deep Research answer.",
+  "type": "object",
+  "properties": {
+    "documentId": { "type": "string" },
+    "title": { "type": "string" },
+    "sourceType": {
+      "type": "string",
+      "enum": ["filing", "broker", "transcript", "tegus", "news", "internal"]
+    },
+    "url": { "type": "uri" },
+    "snippet": { "type": "string" }
+  },
+  "required": ["documentId", "sourceType"]
+}

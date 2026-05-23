@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-schema/alphasense-gensearch-conversation-schema.json",
+  "title": "GenSearchConversation",
+  "description": "A GenSearch conversation envelope returned by the Agent API. Created by askGenSearch and polled until 'progress' reaches 1.0; final markdown 'answer' carries inline citations into the AlphaSense corpus.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Conversation identifier used for polling." },
+    "mode": {
+      "type": "string",
+      "enum": ["auto", "fast", "thinkLonger", "deepResearch"],
+      "description": "GenSearch reasoning mode. 'deepResearch' triggers the long-horizon Deep Research agent."
+    },
+    "progress": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Completion progress. 1.0 indicates the answer is final."
+    },
+    "answer": {
+      "type": "string",
+      "description": "Markdown answer with inline citation markers."
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "$ref": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-schema/alphasense-citation-schema.json"
+      }
+    }
+  },
+  "required": ["id", "progress"]
+}

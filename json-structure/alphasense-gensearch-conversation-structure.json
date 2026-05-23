@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-structure/alphasense-gensearch-conversation-structure.json",
+  "name": "GenSearchConversation",
+  "description": "A GenSearch conversation envelope returned by the AlphaSense Agent API.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "mode": {
+      "type": "string",
+      "enum": ["auto", "fast", "thinkLonger", "deepResearch"]
+    },
+    "progress": { "type": "double" },
+    "answer": { "type": "string" },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "documentId": { "type": "string" },
+          "title": { "type": "string" },
+          "sourceType": { "type": "string" },
+          "url": { "type": "uri" },
+          "snippet": { "type": "string" }
+        },
+        "required": ["documentId", "sourceType"]
+      }
+    }
+  },
+  "required": ["id", "progress"]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "wl-ai-megacaps",
+  "name": "AI Megacaps",
+  "items": [
+    { "type": "ticker", "value": "NVDA" },
+    { "type": "ticker", "value": "MSFT" },
+    { "type": "ticker", "value": "GOOGL" },
+    { "type": "ticker", "value": "META" },
+    { "type": "query", "value": "data center capex AND \"generative AI\"" }
+  ]
+}

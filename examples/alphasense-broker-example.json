@@ -1,0 +1,6 @@
+{
+  "id": "as-broker-ms",
+  "name": "Morgan Stanley Research",
+  "country": "US",
+  "coverage": ["Technology", "Consumer", "Healthcare"]
+}

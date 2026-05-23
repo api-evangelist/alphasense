@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-structure/alphasense-workflow-agent-structure.json",
+  "name": "WorkflowAgent",
+  "description": "A pre-built or customer-defined Workflow Agent exposed by the AlphaSense Agent API.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "inputs": { "type": "object" },
+    "outputs": { "type": "object" }
+  },
+  "required": ["id", "name"]
+}

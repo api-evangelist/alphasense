@@ -1,0 +1,107 @@
+specification: API Evangelist Vocabulary
+specificationVersion: '0.1'
+provider: AlphaSense
+providerId: alphasense
+created: '2026-05-23'
+modified: '2026-05-23'
+description: >-
+  Unified taxonomy mapping AlphaSense's operational surface (Agent API + Utility
+  APIs over the shared /gql endpoint, plus the REST Ingestion API and the Private
+  Cloud CLI) to the capability dimensions (workflow agents, GenSearch, Deep
+  Research, MCP tools) and to the personas that consume them. Anchors the
+  filing / broker / transcript / Tegus / news / internal document taxonomy that
+  spans every API surface.
+tags:
+  - Market Intelligence
+  - Financial Research
+  - Search
+  - Generative AI
+  - Agents
+  - Tegus
+  - Enterprise Intelligence
+  - MCP
+operational:
+  resources:
+    - name: Document
+      description: A single piece of indexed content (filing, broker note, transcript, Tegus call, news, or internal).
+    - name: Company
+      description: A company entity in the AlphaSense reference graph (ticker / CIK / ISIN).
+    - name: Broker
+      description: A research firm whose published research is indexed in AlphaSense.
+    - name: Watchlist
+      description: A user-owned set of companies, tickers, and saved queries.
+    - name: GenSearchConversation
+      description: A conversation envelope for a GenSearch / Deep Research session.
+    - name: Citation
+      description: A traceback from a generative answer to a source Document.
+    - name: WorkflowAgent
+      description: A pre-built or customer-defined workflow agent on the Agent API.
+    - name: IngestionJob
+      description: A lifecycle envelope for an Enterprise Intelligence document upload.
+    - name: AuthToken
+      description: An OAuth 2.0 bearer token used on /gql calls.
+    - name: TrendPoint
+      description: A keyword / theme frequency observation over time.
+    - name: User
+      description: An AlphaSense user with entitlements and preferences.
+    - name: DownloadJob
+      description: A bulk export job for documents or reports.
+  actions:
+    - name: authenticate
+      description: Exchange credentials for a bearer token via POST /auth.
+    - name: askGenSearch
+      description: Submit a GenSearch question and receive a conversation id.
+    - name: pollConversation
+      description: Poll a GenSearch / Deep Research conversation until progress hits 1.0.
+    - name: runWorkflowAgent
+      description: Invoke a pre-built or custom Workflow Agent by id.
+    - name: searchDocuments
+      description: GraphQL document search across the AlphaSense corpus.
+    - name: resolveCompany
+      description: Look up a company by ticker / name / CIK / ISIN.
+    - name: listBrokers
+      description: Enumerate broker research firms in the AlphaSense catalogue.
+    - name: manageWatchlist
+      description: Create, read, update, or delete a watchlist.
+    - name: getTrends
+      description: Time-series read for keyword / theme frequency.
+    - name: getUser
+      description: Read the calling user's profile and entitlements.
+    - name: ingestDocument
+      description: Push a customer-owned document into Enterprise Intelligence.
+    - name: getIngestionJob
+      description: Read the state of an ingestion job.
+    - name: exportDownload
+      description: Request a bulk download of documents or reports.
+capability:
+  workflows:
+    - name: gensearch-ask
+      description: Authenticate, ask a GenSearch question, poll the conversation, return the markdown answer with citations.
+    - name: deep-research
+      description: Run a long-horizon Deep Research agent and return a markdown report grounded in filings, broker research, transcripts, and Tegus calls.
+    - name: workflow-agent-run
+      description: Invoke a Workflow Agent (e.g. earnings-prep, competitor-scan) and surface its structured output.
+    - name: enterprise-intelligence-ingest
+      description: Upload an internal document, poll the ingestion job, then use Search / GenSearch over the combined corpus.
+    - name: search-and-export
+      description: Run a Search query, persist the result set as a Watchlist, and trigger a bulk Download.
+    - name: mcp-tool-bridge
+      description: Expose GenSearch, ThinkLonger, and Deep Research as MCP tools for Claude / Cursor / agent frameworks.
+  personas:
+    - name: Sell-Side Banker
+      description: Investment-banking analyst doing pitch prep and earnings review.
+    - name: Buy-Side Analyst
+      description: Hedge fund / asset management analyst tracking a name or theme.
+    - name: PE Diligence Lead
+      description: Private equity professional running pre-IC diligence.
+    - name: Corporate Strategist
+      description: In-house competitive intelligence and strategy operator.
+    - name: Consultant
+      description: Management consultant doing engagement primers and expert sourcing.
+    - name: Compliance / Risk Officer
+      description: Buyer for Private Cloud deployments and regulated workflows.
+    - name: AI Engineer
+      description: Builder of customer-side agents that call the Agent API or MCP server.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

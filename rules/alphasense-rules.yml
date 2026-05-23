@@ -1,0 +1,154 @@
+rules:
+
+  # INFO / METADATA
+  info-title-pattern:
+    description: Info title should follow "AlphaSense ..." pattern.
+    severity: warn
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        match: "^AlphaSense "
+
+  info-description-required:
+    description: Info description must be present and at least 80 characters.
+    severity: warn
+    given: $.info
+    then:
+      field: description
+      function: minLength
+      functionOptions:
+        value: 80
+
+  info-version-required:
+    description: API version must be defined.
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+
+  info-contact-required:
+    description: Contact info should be present and link to the developer portal.
+    severity: info
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+
+  # OPENAPI VERSION
+  openapi-version-3:
+    description: Must use OpenAPI 3.0.x or 3.1.x.
+    severity: error
+    given: $
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: "^3\\."
+
+  # SERVERS
+  servers-must-be-defined:
+    description: Servers array must be defined and non-empty.
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+
+  servers-https-required:
+    description: All AlphaSense servers must use HTTPS.
+    severity: error
+    given: $.servers[*]
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  servers-include-saas-base:
+    description: At least one server must point at the SaaS gateway api.alpha-sense.com.
+    severity: warn
+    given: $.servers[*]
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: "alpha-sense\\.com|customerDomain"
+
+  # PATHS
+  paths-no-trailing-slash:
+    description: Paths must not end with a trailing slash.
+    severity: warn
+    given: $.paths
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "/$"
+
+  paths-include-gql-or-services:
+    description: AlphaSense exposes either a GraphQL gateway (/gql) or REST surfaces under /services/i/...
+    severity: info
+    given: $.paths
+    then:
+      function: truthy
+
+  # OPERATIONS
+  operation-operationId-required:
+    description: Every operation should have an operationId.
+    severity: warn
+    given: $.paths[*][*]
+    then:
+      field: operationId
+      function: truthy
+
+  operation-summary-title-case:
+    description: Operation summary should start with an uppercase verb (Title Case).
+    severity: warn
+    given: $.paths[*][*].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z]"
+
+  operation-tags-required:
+    description: Every operation must declare at least one tag.
+    severity: warn
+    given: $.paths[*][*]
+    then:
+      field: tags
+      function: truthy
+
+  # SECURITY
+  security-oauth2-bearer-required:
+    description: AlphaSense Agent and Utility APIs require OAuth 2.0 bearer tokens.
+    severity: error
+    given: $.components.securitySchemes
+    then:
+      field: bearerAuth
+      function: truthy
+
+  security-api-key-header-required:
+    description: AlphaSense calls require the x-api-key header.
+    severity: error
+    given: $.components.securitySchemes
+    then:
+      field: apiKeyHeader
+      function: truthy
+
+  # SCHEMAS
+  schemas-required-fields:
+    description: Top-level schemas should have a description.
+    severity: warn
+    given: $.components.schemas[*]
+    then:
+      field: description
+      function: truthy
+
+  # TAGS
+  tags-defined-at-root:
+    description: Tags used by operations should be defined on the root tags array.
+    severity: info
+    given: $.tags
+    then:
+      function: truthy

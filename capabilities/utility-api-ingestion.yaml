@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AlphaSense Utility API — Ingestion
+  description: 'AlphaSense Utility API — Ingestion. 2 operations. Lead operation: Ingest A Customer Document Into Enterprise
+    Intelligence. Self-contained Naftiko capability covering one alphasense business surface.'
+  tags:
+  - alphasense
+  - Utility API
+  - Ingestion
+  - Enterprise Intelligence
+  created: '2026-05-23'
+  modified: '2026-05-23'
+binds:
+- namespace: env
+  keys:
+    ALPHASENSE_API_KEY: ALPHASENSE_API_KEY
+    ALPHASENSE_BEARER_TOKEN: ALPHASENSE_BEARER_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: utility-api-ingestion
+    baseUri: https://api.alpha-sense.com
+    description: AlphaSense Utility API — Ingestion business capability. Self-contained, no shared references.
+    resources:
+    - name: ingestion-documents
+      path: /services/i/ingestion-api/v1/documents
+      operations:
+      - name: ingestdocument
+        method: POST
+        description: Ingest A Customer Document Into Enterprise Intelligence.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: ingestion-job
+      path: /services/i/ingestion-api/v1/jobs/{jobId}
+      operations:
+      - name: getingestionjob
+        method: GET
+        description: Get The Status Of An Ingestion Job.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.ALPHASENSE_BEARER_TOKEN}}'
+  exposes:
+  - type: rest
+    namespace: utility-api-ingestion-rest
+    port: 8080
+    description: REST adapter for AlphaSense Utility API — Ingestion. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/ingestion/documents
+      name: ingestion-documents
+      description: REST surface for ingestion document submission.
+      operations:
+      - method: POST
+        name: ingestdocument
+        description: Ingest A Customer Document.
+        call: utility-api-ingestion.ingestdocument
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/ingestion/jobs/{jobid}
+      name: ingestion-jobs
+      description: REST surface for ingestion job status.
+      operations:
+      - method: GET
+        name: getingestionjob
+        description: Get Ingestion Job Status.
+        call: utility-api-ingestion.getingestionjob
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: utility-api-ingestion-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AlphaSense Utility API — Ingestion. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: alphasense-ingest-document
+      description: Ingest A Customer Document Into Enterprise Intelligence.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: utility-api-ingestion.ingestdocument
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: alphasense-get-ingestion-job
+      description: Get The Status Of An Ingestion Job.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: utility-api-ingestion.getingestionjob
+      outputParameters:
+      - type: object
+        mapping: $.

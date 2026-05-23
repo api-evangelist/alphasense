@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/json-structure/alphasense-document-structure.json",
+  "name": "Document",
+  "description": "A single document indexed in the AlphaSense corpus - filing, broker research, news article, earnings call transcript, Tegus expert call, or customer-ingested Enterprise Intelligence document.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "AlphaSense document identifier." },
+    "title": { "type": "string" },
+    "releasedAt": { "type": "datetime" },
+    "sourceType": {
+      "type": "string",
+      "enum": ["filing", "broker", "transcript", "tegus", "news", "internal"]
+    },
+    "companies": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "url": { "type": "uri" }
+  },
+  "required": ["id", "title", "sourceType"]
+}

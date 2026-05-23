@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AlphaSense Agent API — GenSearch
+  description: 'AlphaSense Agent API — GenSearch. 1 operation. Lead operation: Execute An AlphaSense GraphQL Operation (GenSearch).
+    Self-contained Naftiko capability covering one alphasense business surface.'
+  tags:
+  - alphasense
+  - Agent API
+  - GenSearch
+  - Generative AI
+  created: '2026-05-23'
+  modified: '2026-05-23'
+binds:
+- namespace: env
+  keys:
+    ALPHASENSE_API_KEY: ALPHASENSE_API_KEY
+    ALPHASENSE_BEARER_TOKEN: ALPHASENSE_BEARER_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: agent-api-gensearch
+    baseUri: https://api.alpha-sense.com
+    description: AlphaSense Agent API — GenSearch business capability. Self-contained, no shared references.
+    resources:
+    - name: gql
+      path: /gql
+      operations:
+      - name: askgensearch
+        method: POST
+        description: Submit a GenSearch mutation in any of the auto / fast / thinkLonger modes and receive a conversation id.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: pollconversation
+        method: POST
+        description: Poll an in-flight GenSearch conversation by id until progress reaches 1.0.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.ALPHASENSE_BEARER_TOKEN}}'
+  exposes:
+  - type: rest
+    namespace: agent-api-gensearch-rest
+    port: 8080
+    description: REST adapter for AlphaSense Agent API — GenSearch. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/gensearch/ask
+      name: gensearch-ask
+      description: REST surface for the GenSearch askGenSearch mutation.
+      operations:
+      - method: POST
+        name: askgensearch
+        description: Submit a GenSearch mutation in any of the auto / fast / thinkLonger modes.
+        call: agent-api-gensearch.askgensearch
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/gensearch/conversations/{conversationId}
+      name: gensearch-conversation
+      description: REST surface for polling a GenSearch conversation.
+      operations:
+      - method: POST
+        name: pollconversation
+        description: Poll an in-flight GenSearch conversation by id.
+        call: agent-api-gensearch.pollconversation
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: agent-api-gensearch-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AlphaSense Agent API — GenSearch. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: alphasense-ask-gensearch
+      description: Submit a GenSearch question in any of the auto / fast / thinkLonger modes.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: agent-api-gensearch.askgensearch
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: alphasense-poll-gensearch-conversation
+      description: Poll a GenSearch conversation by id until progress reaches 1.0.
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: agent-api-gensearch.pollconversation
+      outputParameters:
+      - type: object
+        mapping: $.

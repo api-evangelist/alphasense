@@ -1,0 +1,6 @@
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzg4MTIiLCJleHAiOjE3MTYzNzY5MTl9.signature-bytes-here",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "rtk_2f9d-7a01-4b08-9c12-71ad6e1d3e3b"
+}
