@@ -511,6 +511,8 @@ common:
         description: >-
           Embedding contract for customers building their own agents on top
           of the AlphaSense corpus.
+  - type: LLMsTxt
+    url: https://developer.alpha-sense.com/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
