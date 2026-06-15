@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AlphaSense Agent API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Exchange AlphaSense Credentials For A Bearer Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alpha-sense.com/auth",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "OAuth 2.0 password-grant token endpoint. Submit the user email and password together with the client credentials issued by AlphaSense and the x-api-key header. Returns a bearer token that must be sent on every subsequent /gql request."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "GenSearch",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute An AlphaSense GraphQL Operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alpha-sense.com/gql",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Single GraphQL endpoint that fronts the AlphaSense Agent API and Utility APIs. Submit a query or mutation in the body; the operation selects the surface (GenSearch, Deep Research, Workflow Agents, Document Search, Companies, Brokers, Watchlist, Trends, User, Download). Authentication is the bearer token from /auth plus the x-api-key header."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

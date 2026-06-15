@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AlphaSense Utility APIs",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute An AlphaSense Utility GraphQL Operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alpha-sense.com/gql",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Same /gql endpoint as the Agent API; pick the Utility surface via the GraphQL operation name (`search`, `companies`, `brokers`, `watchlists`, `trends`, `user`, `downloads`)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Ingestion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Ingest A Customer Document Into Enterprise Intelligence",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alpha-sense.com/services/i/ingestion-api/v1/documents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "REST endpoint for pushing customer-owned documents (board decks, CRM exports, meeting transcripts, research notes) into AlphaSense Enterprise Intelligence so they become searchable alongside the external AlphaSense corpus."
+        },
+        {
+          "info": {
+            "name": "Get The Status Of An Ingestion Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.alpha-sense.com/services/i/ingestion-api/v1/jobs/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the processing state and document identifier of an ingestion job previously submitted via POST /services/i/ingestion-api/v1/documents."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
