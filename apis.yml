@@ -292,6 +292,12 @@ apis:
   - type: ReleaseNotes
     url: https://github.com/AlphaSense-Engineering/privatecloud-cli/releases
 common:
+- type: TrustCenter
+  url: security/alphasense-trust-center.yml
+- type: DomainSecurity
+  url: security/alphasense-domain-security.yml
+- type: Authentication
+  url: authentication/alphasense-authentication.yml
 - type: Website
   url: https://www.alpha-sense.com/
 - type: DeveloperPortal

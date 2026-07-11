@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/alphasense-agent-api-openapi.yml, openapi/alphasense-utility-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/alphasense-agent-api-openapi.yml
+  - openapi/alphasense-utility-api-openapi.yml
+- name: apiKeyHeader
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  sources:
+  - openapi/alphasense-agent-api-openapi.yml
+  - openapi/alphasense-utility-api-openapi.yml
