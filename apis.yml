@@ -292,6 +292,8 @@ apis:
   - type: ReleaseNotes
     url: https://github.com/AlphaSense-Engineering/privatecloud-cli/releases
 common:
+- type: AgenticAccess
+  url: agentic-access/alphasense-agentic-access.yml
 - type: TrustCenter
   url: security/alphasense-trust-center.yml
 - type: DomainSecurity
