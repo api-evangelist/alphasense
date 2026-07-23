@@ -1,0 +1,125 @@
+openapi: 3.1.0
+info:
+  title: AlphaSense Agent Authentication Ingestion API
+  description: GraphQL surface for embedding AlphaSense market intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents, and the Document Search API behind an OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations into the AlphaSense corpus (filings, broker research, Tegus expert call transcripts, news, internal Enterprise Intelligence documents). Documented at https://developer.alpha-sense.com/agent-api/quickstart.
+  version: '1.0'
+  contact:
+    name: AlphaSense Developer Support
+    url: https://developer.alpha-sense.com/
+  termsOfService: https://www.alpha-sense.com/legal/
+servers:
+- url: https://api.alpha-sense.com
+  description: AlphaSense SaaS API gateway
+- url: https://{customerDomain}
+  description: AlphaSense Private Cloud (customer-hosted)
+  variables:
+    customerDomain:
+      default: customer.alpha-sense.cloud
+      description: Customer-provisioned Private Cloud domain.
+security:
+- bearerAuth: []
+  apiKeyHeader: []
+tags:
+- name: Ingestion
+  description: Push customer-owned content into Enterprise Intelligence.
+paths:
+  /services/i/ingestion-api/v1/documents:
+    post:
+      operationId: ingestDocument
+      summary: Ingest A Customer Document Into Enterprise Intelligence
+      description: REST endpoint for pushing customer-owned documents (board decks, CRM exports, meeting transcripts, research notes) into AlphaSense Enterprise Intelligence so they become searchable alongside the external AlphaSense corpus.
+      tags:
+      - Ingestion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestionDocumentRequest'
+      responses:
+        '202':
+          description: Document accepted for ingestion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionJob'
+        '400':
+          description: Validation failed.
+        '401':
+          description: Missing or invalid bearer token / API key.
+  /services/i/ingestion-api/v1/jobs/{jobId}:
+    get:
+      operationId: getIngestionJob
+      summary: Get The Status Of An Ingestion Job
+      description: Retrieve the processing state and document identifier of an ingestion job previously submitted via POST /services/i/ingestion-api/v1/documents.
+      tags:
+      - Ingestion
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Ingestion job state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionJob'
+        '404':
+          description: Job not found.
+components:
+  schemas:
+    IngestionJob:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - accepted
+          - processing
+          - ready
+          - failed
+        documentId:
+          type: string
+          description: AlphaSense document id once ingestion completes.
+        message:
+          type: string
+    IngestionDocumentRequest:
+      type: object
+      required:
+      - title
+      - mimeType
+      - content
+      properties:
+        title:
+          type: string
+        mimeType:
+          type: string
+          description: MIME type of the uploaded document.
+        content:
+          type: string
+          description: Base64-encoded document content or a presigned upload reference.
+        tags:
+          type: array
+          items:
+            type: string
+        sourceType:
+          type: string
+          enum:
+          - internal
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: x-api-key
+externalDocs:
+  description: AlphaSense Agent API Quickstart
+  url: https://developer.alpha-sense.com/agent-api/quickstart

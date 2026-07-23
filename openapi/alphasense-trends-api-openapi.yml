@@ -1,0 +1,97 @@
+openapi: 3.1.0
+info:
+  title: AlphaSense Agent Authentication Trends API
+  description: GraphQL surface for embedding AlphaSense market intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents, and the Document Search API behind an OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations into the AlphaSense corpus (filings, broker research, Tegus expert call transcripts, news, internal Enterprise Intelligence documents). Documented at https://developer.alpha-sense.com/agent-api/quickstart.
+  version: '1.0'
+  contact:
+    name: AlphaSense Developer Support
+    url: https://developer.alpha-sense.com/
+  termsOfService: https://www.alpha-sense.com/legal/
+servers:
+- url: https://api.alpha-sense.com
+  description: AlphaSense SaaS API gateway
+- url: https://{customerDomain}
+  description: AlphaSense Private Cloud (customer-hosted)
+  variables:
+    customerDomain:
+      default: customer.alpha-sense.cloud
+      description: Customer-provisioned Private Cloud domain.
+security:
+- bearerAuth: []
+  apiKeyHeader: []
+tags:
+- name: Trends
+  description: Keyword and theme frequency over time.
+paths:
+  /gql:
+    post:
+      operationId: utilityGraphqlGateway
+      summary: Execute An AlphaSense Utility GraphQL Operation
+      description: Same /gql endpoint as the Agent API; pick the Utility surface via the GraphQL operation name (`search`, `companies`, `brokers`, `watchlists`, `trends`, `user`, `downloads`).
+      tags:
+      - Trends
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+      responses:
+        '200':
+          description: GraphQL response envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        '401':
+          description: Missing or invalid bearer token / API key.
+        '429':
+          description: Rate or credit limit exceeded.
+components:
+  schemas:
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/GraphQLError'
+    GraphQLError:
+      type: object
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        extensions:
+          type: object
+          additionalProperties: true
+    GraphQLRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+        operationName:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: x-api-key
+externalDocs:
+  description: AlphaSense Agent API Quickstart
+  url: https://developer.alpha-sense.com/agent-api/quickstart

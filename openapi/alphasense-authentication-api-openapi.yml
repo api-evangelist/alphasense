@@ -1,0 +1,106 @@
+openapi: 3.1.0
+info:
+  title: AlphaSense Agent Authentication API
+  description: GraphQL surface for embedding AlphaSense market intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents, and the Document Search API behind an OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations into the AlphaSense corpus (filings, broker research, Tegus expert call transcripts, news, internal Enterprise Intelligence documents). Documented at https://developer.alpha-sense.com/agent-api/quickstart.
+  version: '1.0'
+  contact:
+    name: AlphaSense Developer Support
+    url: https://developer.alpha-sense.com/
+  termsOfService: https://www.alpha-sense.com/legal/
+servers:
+- url: https://api.alpha-sense.com
+  description: AlphaSense SaaS API gateway
+- url: https://{customerDomain}
+  description: AlphaSense Private Cloud (customer-hosted)
+  variables:
+    customerDomain:
+      default: customer.alpha-sense.cloud
+      description: Customer-provisioned Private Cloud domain.
+security:
+- bearerAuth: []
+  apiKeyHeader: []
+tags:
+- name: Authentication
+  description: OAuth 2.0 token exchange for the AlphaSense platform.
+paths:
+  /auth:
+    post:
+      operationId: authenticate
+      summary: Exchange AlphaSense Credentials For A Bearer Token
+      description: OAuth 2.0 password-grant token endpoint. Submit the user email and password together with the client credentials issued by AlphaSense and the x-api-key header. Returns a bearer token that must be sent on every subsequent /gql request.
+      tags:
+      - Authentication
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthTokenRequest'
+      responses:
+        '200':
+          description: Authentication succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '401':
+          description: Authentication failed.
+components:
+  schemas:
+    AuthTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: Bearer token to send on subsequent /gql calls.
+        token_type:
+          type: string
+          enum:
+          - Bearer
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds.
+        refresh_token:
+          type: string
+          description: Refresh token (if issued).
+    AuthTokenRequest:
+      type: object
+      required:
+      - grant_type
+      - username
+      - password
+      - client_id
+      - client_secret
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - password
+          description: OAuth 2.0 grant type. Must be 'password'.
+        username:
+          type: string
+          format: email
+          description: AlphaSense user email.
+        password:
+          type: string
+          format: password
+          description: AlphaSense user password.
+        client_id:
+          type: string
+          description: OAuth client identifier issued by AlphaSense.
+        client_secret:
+          type: string
+          format: password
+          description: OAuth client secret issued by AlphaSense.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: x-api-key
+externalDocs:
+  description: AlphaSense Agent API Quickstart
+  url: https://developer.alpha-sense.com/agent-api/quickstart
