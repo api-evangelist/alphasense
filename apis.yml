@@ -14,7 +14,20 @@ description: >-
   https://api.alpha-sense.com/gql, with a companion REST Ingestion API for Enterprise Intelligence customers. AlphaSense
   Enterprise Intelligence Private Cloud ships with a public Go CLI (AlphaSense-Engineering/privatecloud-cli) for
   installing and validating the Kubernetes-hosted environment in a customer's own VPC.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/alphasense.png
 tags:
 - Market Intelligence
 - Financial Research
@@ -30,29 +43,99 @@ created: '2026-05-23'
 modified: '2026-05-23'
 specificationVersion: '0.19'
 apis:
-- aid: alphasense:agent-api
-  name: AlphaSense Agent API
+- aid: alphasense:trends-api
+  name: AlphaSense Trends API
   description: >-
-    GraphQL surface for embedding AlphaSense intelligence into customer AI agents. Wraps GenSearch (auto / fast /
-    thinkLonger / deepResearch modes), Workflow Agents (pre-built and custom), and the Document Search API behind a
-    single OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations to
-    the underlying AlphaSense source documents (filings, transcripts, broker research, Tegus calls). Designed for
-    agentic workflows that need first-result in under five minutes.
+    Time-series operations for theme, keyword, and topic frequency across the document corpus - the back
+    end behind AlphaSense's Trend visualisations and competitive-intelligence dashboards.
+  humanURL: https://developer.alpha-sense.com/api/getting-started
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Trends
+  - Analytics
+  - Time Series
+  properties:
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+- aid: alphasense:user-api
+  name: AlphaSense User API
+  description: >-
+    User and account management operations covering profile, preferences, session, and entitlement metadata
+    for integrating the AlphaSense experience into a host application or single-sign-on flow.
+  humanURL: https://developer.alpha-sense.com/api/getting-started
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Users
+  - Accounts
+  - Identity
+  properties:
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+- aid: alphasense:download-api
+  name: AlphaSense Download / Export API
+  description: >-
+    Bulk export and download operations for documents, search results, and report PDFs - used to push
+    AlphaSense content into downstream data warehouses, vaults, and BI tools.
+  humanURL: https://developer.alpha-sense.com/api/getting-started
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Downloads
+  - Export
+  - Bulk
+  properties:
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+- aid: alphasense:mcp-server
+  name: AlphaSense MCP Server
+  description: >-
+    Model Context Protocol surface that lets MCP-aware AI clients (Claude, Cursor, ChatGPT-style desktop
+    hosts, in-house agent frameworks) call GenSearch, ThinkLonger, and Deep Research as tools without
+    writing a bespoke GraphQL integration. The MCP server brokers the OAuth flow and enforces the customer's
+    Agent API entitlement.
   humanURL: https://developer.alpha-sense.com/agent-api/quickstart
   baseURL: https://api.alpha-sense.com
   tags:
-  - GraphQL
-  - Generative AI
+  - MCP
+  - Model Context Protocol
   - Agents
-  - GenSearch
-  - Deep Research
+  - Tools
   properties:
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+- aid: alphasense:privatecloud-cli
+  name: AlphaSense Private Cloud CLI
+  description: >-
+    Go-based CLI (AlphaSense-Engineering/privatecloud-cli, Apache-2.0-ish "Other" license) used by Enterprise
+    Intelligence Private Cloud customers to bootstrap and validate the Kubernetes cluster that hosts AlphaSense
+    inside their own cloud account. Ships `check` and `install` commands that lay down Crossplane and
+    platform namespaces, generate the required ServiceAccounts, Roles, ClusterRoles, and Pods, and reconcile
+    against per-version compatibility matrices.
+  humanURL: https://github.com/AlphaSense-Engineering/privatecloud-cli
+  baseURL: https://github.com/AlphaSense-Engineering/privatecloud-cli
+  tags:
+  - CLI
+  - Private Cloud
+  - Kubernetes
+  - Enterprise Intelligence
+  properties:
+  - type: GitHubRepository
+    url: https://github.com/AlphaSense-Engineering/privatecloud-cli
+  - type: ReleaseNotes
+    url: https://github.com/AlphaSense-Engineering/privatecloud-cli/releases
+- aid: alphasense:alphasense-authentication-api
+  name: AlphaSense Authentication API
+  description: OAuth 2.0 token exchange for the AlphaSense platform.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-authentication-api-openapi.yml
   - type: Documentation
     url: https://developer.alpha-sense.com/agent-api/quickstart
   - type: Authentication
     url: https://developer.alpha-sense.com/api/getting-started
-  - type: OpenAPI
-    url: openapi/alphasense-agent-api-openapi.yml
   - type: JSONSchema
     url: json-schema/alphasense-gensearch-conversation-schema.json
   - type: JSONSchema
@@ -71,28 +154,10 @@ apis:
     url: examples/alphasense-citation-example.json
   - type: Examples
     url: examples/alphasense-workflow-agent-example.json
-  - url: graphql/alphasense-graphql.md
-    type: GraphQL
-- aid: alphasense:search-api
-  name: AlphaSense Search API
-  description: >-
-    GraphQL search over the full AlphaSense content library (500M+ documents spanning SEC filings, broker research
-    from 1,500+ firms, news, earnings call transcripts, and Tegus expert interviews). Supports keyword and semantic
-    filters, date presets, document-type filters, watchlists, and smart synonyms. Operates against the same
-    OAuth-protected /gql endpoint as the Agent API. Used to drive in-app search and retrieval flows that do not need
-    agentic answer synthesis.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - GraphQL
-  - Search
-  - Documents
-  - Retrieval
-  properties:
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
   - type: Documentation
     url: https://developer.alpha-sense.com/api/getting-started
-  - type: OpenAPI
-    url: openapi/alphasense-utility-api-openapi.yml
   - type: JSONSchema
     url: json-schema/alphasense-document-schema.json
   - type: JSONStructure
@@ -101,197 +166,875 @@ apis:
     url: examples/alphasense-document-example.json
   - type: Examples
     url: examples/alphasense-tegus-document-example.json
-- aid: alphasense:ingestion-api
-  name: AlphaSense Ingestion API
-  description: >-
-    REST surface (`/services/i/ingestion-api/v1/...`) used by Enterprise Intelligence customers to push their own
-    internal documents - research notes, board decks, CRM exports, meeting transcripts - into AlphaSense so the same
-    GenSearch and Deep Research layer can answer over external market intelligence and internal company content
-    together. Available on SaaS (https://api.alpha-sense.com) and Private Cloud (customer-hosted domain) deployments.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - REST
-  - Ingestion
-  - Enterprise Intelligence
-  - Internal Content
-  properties:
-  - type: Documentation
-    url: https://developer.alpha-sense.com/api/getting-started
-  - type: OpenAPI
-    url: openapi/alphasense-utility-api-openapi.yml
   - type: JSONSchema
     url: json-schema/alphasense-ingestion-job-schema.json
   - type: JSONStructure
     url: json-structure/alphasense-ingestion-job-structure.json
   - type: Examples
     url: examples/alphasense-ingestion-job-example.json
-- aid: alphasense:companies-api
-  name: AlphaSense Companies API
-  description: >-
-    GraphQL operations for resolving and enriching companies in the AlphaSense entity graph - ticker / name / CIK /
-    ISIN lookup, parent / subsidiary relationships, sector and industry tagging, and references that join into Search
-    and GenSearch filters.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - Companies
-  - Entities
-  - Reference Data
-  properties:
-  - type: Documentation
-    url: https://developer.alpha-sense.com/api/getting-started
-  - type: OpenAPI
-    url: openapi/alphasense-utility-api-openapi.yml
   - type: JSONSchema
     url: json-schema/alphasense-company-schema.json
   - type: JSONStructure
     url: json-structure/alphasense-company-structure.json
   - type: Examples
     url: examples/alphasense-company-example.json
-- aid: alphasense:brokers-api
-  name: AlphaSense Brokers API
-  description: >-
-    Lookup and metadata for the 1,500+ broker research firms whose content AlphaSense licenses. Resolves broker
-    identifiers used by the Search API and exposes coverage signals for analysts filtering by source.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - Brokers
-  - Research
-  - Reference Data
-  properties:
-  - type: Documentation
-    url: https://developer.alpha-sense.com/api/getting-started
-  - type: OpenAPI
-    url: openapi/alphasense-utility-api-openapi.yml
   - type: JSONSchema
     url: json-schema/alphasense-broker-schema.json
   - type: JSONStructure
     url: json-structure/alphasense-broker-structure.json
   - type: Examples
     url: examples/alphasense-broker-example.json
-- aid: alphasense:watchlist-api
-  name: AlphaSense Watchlist API
-  description: >-
-    Create, read, update, and delete user watchlists - persisted bundles of companies, tickers, and saved searches
-    that drive personalized alerts, digests, and re-ranked Search results.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - Watchlists
-  - Personalization
-  - Alerts
-  properties:
-  - type: Documentation
-    url: https://developer.alpha-sense.com/api/getting-started
-  - type: OpenAPI
-    url: openapi/alphasense-utility-api-openapi.yml
   - type: JSONSchema
     url: json-schema/alphasense-watchlist-schema.json
   - type: JSONStructure
     url: json-structure/alphasense-watchlist-structure.json
   - type: Examples
     url: examples/alphasense-watchlist-example.json
-- aid: alphasense:trends-api
-  name: AlphaSense Trends API
-  description: >-
-    Time-series operations for theme, keyword, and topic frequency across the document corpus - the back end behind
-    AlphaSense's Trend visualisations and competitive-intelligence dashboards.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - Trends
-  - Analytics
-  - Time Series
-  properties:
-  - type: Documentation
-    url: https://developer.alpha-sense.com/api/getting-started
-- aid: alphasense:user-api
-  name: AlphaSense User API
-  description: >-
-    User and account management operations covering profile, preferences, session, and entitlement metadata for
-    integrating the AlphaSense experience into a host application or single-sign-on flow.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - Users
-  - Accounts
-  - Identity
-  properties:
-  - type: Documentation
-    url: https://developer.alpha-sense.com/api/getting-started
-- aid: alphasense:download-api
-  name: AlphaSense Download / Export API
-  description: >-
-    Bulk export and download operations for documents, search results, and report PDFs - used to push AlphaSense
-    content into downstream data warehouses, vaults, and BI tools.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - Downloads
-  - Export
-  - Bulk
-  properties:
-  - type: Documentation
-    url: https://developer.alpha-sense.com/api/getting-started
-- aid: alphasense:authentication-api
-  name: AlphaSense Authentication API
-  description: >-
-    OAuth 2.0 password-grant token endpoint at POST /auth. Clients submit email, password, client_id, and
-    client_secret together with an x-api-key header to receive a bearer token used on every subsequent Agent or
-    Utility API call. The same flow works against SaaS (https://api.alpha-sense.com) and Private Cloud
-    (https://{your-domain}/) base URLs.
-  humanURL: https://developer.alpha-sense.com/api/getting-started
-  baseURL: https://api.alpha-sense.com
-  tags:
-  - Authentication
-  - OAuth 2.0
-  - Token
-  properties:
-  - type: Documentation
-    url: https://developer.alpha-sense.com/api/getting-started
-  - type: OpenAPI
-    url: openapi/alphasense-agent-api-openapi.yml
   - type: Examples
     url: examples/alphasense-auth-token-example.json
-- aid: alphasense:mcp-server
-  name: AlphaSense MCP Server
-  description: >-
-    Model Context Protocol surface that lets MCP-aware AI clients (Claude, Cursor, ChatGPT-style desktop hosts,
-    in-house agent frameworks) call GenSearch, ThinkLonger, and Deep Research as tools without writing a bespoke
-    GraphQL integration. The MCP server brokers the OAuth flow and enforces the customer's Agent API entitlement.
+- aid: alphasense:alphasense-brokers-api
+  name: AlphaSense Brokers API
+  description: Broker research firm reference data (1,500+ firms).
   humanURL: https://developer.alpha-sense.com/agent-api/quickstart
   baseURL: https://api.alpha-sense.com
   tags:
-  - MCP
-  - Model Context Protocol
-  - Agents
-  - Tools
+  - Brokers
   properties:
+  - type: OpenAPI
+    url: openapi/alphasense-brokers-api-openapi.yml
   - type: Documentation
     url: https://developer.alpha-sense.com/agent-api/quickstart
-- aid: alphasense:privatecloud-cli
-  name: AlphaSense Private Cloud CLI
-  description: >-
-    Go-based CLI (AlphaSense-Engineering/privatecloud-cli, Apache-2.0-ish "Other" license) used by Enterprise
-    Intelligence Private Cloud customers to bootstrap and validate the Kubernetes cluster that hosts AlphaSense inside
-    their own cloud account. Ships `check` and `install` commands that lay down Crossplane and platform namespaces,
-    generate the required ServiceAccounts, Roles, ClusterRoles, and Pods, and reconcile against per-version
-    compatibility matrices.
-  humanURL: https://github.com/AlphaSense-Engineering/privatecloud-cli
-  baseURL: https://github.com/AlphaSense-Engineering/privatecloud-cli
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-companies-api
+  name: AlphaSense Companies API
+  description: Company entity resolution and metadata.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
   tags:
-  - CLI
-  - Private Cloud
-  - Kubernetes
-  - Enterprise Intelligence
+  - Companies
   properties:
-  - type: GitHubRepository
-    url: https://github.com/AlphaSense-Engineering/privatecloud-cli
-  - type: ReleaseNotes
-    url: https://github.com/AlphaSense-Engineering/privatecloud-cli/releases
+  - type: OpenAPI
+    url: openapi/alphasense-companies-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-deep-research-api
+  name: AlphaSense Deep Research API
+  description: Long-horizon Deep Research agent invocations and progress polling.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Deep Research
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-deep-research-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-document-search-api
+  name: AlphaSense Document Search API
+  description: GraphQL document search across the AlphaSense corpus.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Document Search
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-document-search-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-download-api
+  name: AlphaSense Download API
+  description: Bulk document and report export.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Download
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-download-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-gensearch-api
+  name: AlphaSense GenSearch API
+  description: Generative-search mutations and conversation polling for AlphaSense GenSearch.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - GenSearch
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-gensearch-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-ingestion-api
+  name: AlphaSense Ingestion API
+  description: Push customer-owned content into Enterprise Intelligence.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Ingestion
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-ingestion-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-search-api
+  name: AlphaSense Search API
+  description: Document search across the AlphaSense corpus (500M+ documents).
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-search-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-trends-api
+  name: AlphaSense Trends API
+  description: Keyword and theme frequency over time.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Trends
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-trends-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-user-api
+  name: AlphaSense User API
+  description: User profile and entitlement operations.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-user-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-watchlist-api
+  name: AlphaSense Watchlist API
+  description: User watchlist CRUD operations.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Watchlist
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-watchlist-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
+- aid: alphasense:alphasense-workflow-agents-api
+  name: AlphaSense Workflow Agents API
+  description: Pre-built and customer-defined workflow-agent invocations.
+  humanURL: https://developer.alpha-sense.com/agent-api/quickstart
+  baseURL: https://api.alpha-sense.com
+  tags:
+  - Workflow Agents
+  properties:
+  - type: OpenAPI
+    url: openapi/alphasense-workflow-agents-api-openapi.yml
+  - type: Documentation
+    url: https://developer.alpha-sense.com/agent-api/quickstart
+  - type: Authentication
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-gensearch-conversation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-citation-schema.json
+  - type: JSONSchema
+    url: json-schema/alphasense-workflow-agent-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-gensearch-conversation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-citation-structure.json
+  - type: JSONStructure
+    url: json-structure/alphasense-workflow-agent-structure.json
+  - type: Examples
+    url: examples/alphasense-gensearch-conversation-example.json
+  - type: Examples
+    url: examples/alphasense-citation-example.json
+  - type: Examples
+    url: examples/alphasense-workflow-agent-example.json
+  - type: GraphQL
+    url: graphql/alphasense-graphql.md
+  - type: Documentation
+    url: https://developer.alpha-sense.com/api/getting-started
+  - type: JSONSchema
+    url: json-schema/alphasense-document-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-document-structure.json
+  - type: Examples
+    url: examples/alphasense-document-example.json
+  - type: Examples
+    url: examples/alphasense-tegus-document-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-ingestion-job-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-ingestion-job-structure.json
+  - type: Examples
+    url: examples/alphasense-ingestion-job-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-company-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-company-structure.json
+  - type: Examples
+    url: examples/alphasense-company-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-broker-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-broker-structure.json
+  - type: Examples
+    url: examples/alphasense-broker-example.json
+  - type: JSONSchema
+    url: json-schema/alphasense-watchlist-schema.json
+  - type: JSONStructure
+    url: json-structure/alphasense-watchlist-structure.json
+  - type: Examples
+    url: examples/alphasense-watchlist-example.json
+  - type: Examples
+    url: examples/alphasense-auth-token-example.json
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/alphasense/overview
 - type: AgenticAccess
   url: agentic-access/alphasense-agentic-access.yml
 - type: TrustCenter
