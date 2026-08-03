@@ -1,0 +1,443 @@
+{
+  "info": {
+    "_postman_id": "9430089d-0e60-4c57-aaba-ea2bd73f1e69",
+    "name": "AlphaSense Agent Authentication Ingestion API",
+    "description": "GraphQL surface for embedding AlphaSense market intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents, and the Document Search API behind an OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations into the AlphaSense corpus (filings, broker research, Tegus expert call transcripts, news, internal Enterprise Intelligence documents). Documented at https://developer.alpha-sense.com/agent-api/quickstart.\n\nContact Support:\n Name: AlphaSense Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T00:33:03.000Z",
+    "updatedAt": "2026-07-28T00:33:03.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-9430089d-0e60-4c57-aaba-ea2bd73f1e69"
+  },
+  "item": [
+    {
+      "name": "services",
+      "item": [
+        {
+          "name": "i",
+          "item": [
+            {
+              "name": "ingestion-api",
+              "item": [
+                {
+                  "name": "v1",
+                  "item": [
+                    {
+                      "name": "documents",
+                      "item": [
+                        {
+                          "name": "Ingest A Customer Document Into Enterprise Intelligence",
+                          "id": "279cd526-94a3-49b1-b84e-34e7062817b4",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"title\": \"<string>\",\n  \"mimeType\": \"<string>\",\n  \"content\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sourceType\": \"internal\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/services/i/ingestion-api/v1/documents",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "services",
+                                "i",
+                                "ingestion-api",
+                                "v1",
+                                "documents"
+                              ]
+                            },
+                            "description": "REST endpoint for pushing customer-owned documents (board decks, CRM exports, meeting transcripts, research notes) into AlphaSense Enterprise Intelligence so they become searchable alongside the external AlphaSense corpus."
+                          },
+                          "response": [
+                            {
+                              "id": "18c0e898-1a15-40d8-ad11-7e1743f90751",
+                              "name": "Document accepted for ingestion.",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"title\": \"<string>\",\n  \"mimeType\": \"<string>\",\n  \"content\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sourceType\": \"internal\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/services/i/ingestion-api/v1/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "services",
+                                    "i",
+                                    "ingestion-api",
+                                    "v1",
+                                    "documents"
+                                  ]
+                                }
+                              },
+                              "status": "Accepted",
+                              "code": 202,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"id\": \"<string>\",\n  \"status\": \"ready\",\n  \"documentId\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T00:33:04.000Z",
+                              "updatedAt": "2026-07-28T00:33:04.000Z",
+                              "uid": "35240-18c0e898-1a15-40d8-ad11-7e1743f90751"
+                            },
+                            {
+                              "id": "b52560ee-170a-4f82-9d35-309a0f24aecb",
+                              "name": "Validation failed.",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"title\": \"<string>\",\n  \"mimeType\": \"<string>\",\n  \"content\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sourceType\": \"internal\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/services/i/ingestion-api/v1/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "services",
+                                    "i",
+                                    "ingestion-api",
+                                    "v1",
+                                    "documents"
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T00:33:04.000Z",
+                              "updatedAt": "2026-07-28T00:33:04.000Z",
+                              "uid": "35240-b52560ee-170a-4f82-9d35-309a0f24aecb"
+                            },
+                            {
+                              "id": "db5f3f3e-c0fe-4822-b50a-16758becd489",
+                              "name": "Missing or invalid bearer token / API key.",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"title\": \"<string>\",\n  \"mimeType\": \"<string>\",\n  \"content\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"sourceType\": \"internal\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/services/i/ingestion-api/v1/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "services",
+                                    "i",
+                                    "ingestion-api",
+                                    "v1",
+                                    "documents"
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T00:33:04.000Z",
+                              "updatedAt": "2026-07-28T00:33:04.000Z",
+                              "uid": "35240-db5f3f3e-c0fe-4822-b50a-16758becd489"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T00:33:04.000Z",
+                          "updatedAt": "2026-07-28T00:33:04.000Z",
+                          "uid": "35240-279cd526-94a3-49b1-b84e-34e7062817b4"
+                        }
+                      ],
+                      "id": "7e2da3d8-49bf-47f1-bbd9-5e827c4a5e98",
+                      "createdAt": "2026-07-28T00:33:04.000Z",
+                      "updatedAt": "2026-07-28T00:33:04.000Z",
+                      "uid": "35240-7e2da3d8-49bf-47f1-bbd9-5e827c4a5e98"
+                    },
+                    {
+                      "name": "jobs",
+                      "item": [
+                        {
+                          "name": "{jobId}",
+                          "item": [
+                            {
+                              "name": "Get The Status Of An Ingestion Job",
+                              "id": "f9ab6969-76c1-4561-80fd-1482e33794e3",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/services/i/ingestion-api/v1/jobs/:jobId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "services",
+                                    "i",
+                                    "ingestion-api",
+                                    "v1",
+                                    "jobs",
+                                    ":jobId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "001ef6fe-cc25-4a2d-a9fe-73f2b8d52caa",
+                                      "key": "jobId",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    }
+                                  ]
+                                },
+                                "description": "Retrieve the processing state and document identifier of an ingestion job previously submitted via POST /services/i/ingestion-api/v1/documents."
+                              },
+                              "response": [
+                                {
+                                  "id": "9aeb232b-d885-455f-bedd-c9749889f369",
+                                  "name": "Ingestion job state.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/services/i/ingestion-api/v1/jobs/:jobId",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "services",
+                                        "i",
+                                        "ingestion-api",
+                                        "v1",
+                                        "jobs",
+                                        ":jobId"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "jobId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"id\": \"<string>\",\n  \"status\": \"ready\",\n  \"documentId\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T00:33:04.000Z",
+                                  "updatedAt": "2026-07-28T00:33:04.000Z",
+                                  "uid": "35240-9aeb232b-d885-455f-bedd-c9749889f369"
+                                },
+                                {
+                                  "id": "9946aa51-39cc-421b-8aba-103632986234",
+                                  "name": "Job not found.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/services/i/ingestion-api/v1/jobs/:jobId",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "services",
+                                        "i",
+                                        "ingestion-api",
+                                        "v1",
+                                        "jobs",
+                                        ":jobId"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "jobId"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "text",
+                                  "header": [],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": null,
+                                  "createdAt": "2026-07-28T00:33:04.000Z",
+                                  "updatedAt": "2026-07-28T00:33:04.000Z",
+                                  "uid": "35240-9946aa51-39cc-421b-8aba-103632986234"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T00:33:04.000Z",
+                              "updatedAt": "2026-07-28T00:33:04.000Z",
+                              "uid": "35240-f9ab6969-76c1-4561-80fd-1482e33794e3"
+                            }
+                          ],
+                          "id": "a0d0261b-7764-489e-9c0b-5d1e93a7368b",
+                          "createdAt": "2026-07-28T00:33:04.000Z",
+                          "updatedAt": "2026-07-28T00:33:04.000Z",
+                          "uid": "35240-a0d0261b-7764-489e-9c0b-5d1e93a7368b"
+                        }
+                      ],
+                      "id": "7b73747e-1342-4d40-b926-2add1e1b2985",
+                      "createdAt": "2026-07-28T00:33:04.000Z",
+                      "updatedAt": "2026-07-28T00:33:04.000Z",
+                      "uid": "35240-7b73747e-1342-4d40-b926-2add1e1b2985"
+                    }
+                  ],
+                  "id": "bebfffc8-8165-4d7d-8621-b54d06e0d865",
+                  "createdAt": "2026-07-28T00:33:04.000Z",
+                  "updatedAt": "2026-07-28T00:33:04.000Z",
+                  "uid": "35240-bebfffc8-8165-4d7d-8621-b54d06e0d865"
+                }
+              ],
+              "id": "8ec4d705-e9aa-4de1-924d-f11861207d58",
+              "createdAt": "2026-07-28T00:33:04.000Z",
+              "updatedAt": "2026-07-28T00:33:04.000Z",
+              "uid": "35240-8ec4d705-e9aa-4de1-924d-f11861207d58"
+            }
+          ],
+          "id": "ecb00e78-dca8-464e-9e08-e5eaa4026160",
+          "createdAt": "2026-07-28T00:33:04.000Z",
+          "updatedAt": "2026-07-28T00:33:04.000Z",
+          "uid": "35240-ecb00e78-dca8-464e-9e08-e5eaa4026160"
+        }
+      ],
+      "id": "0cdac514-b4ff-49f9-a7bf-a591fbdd6e29",
+      "createdAt": "2026-07-28T00:33:04.000Z",
+      "updatedAt": "2026-07-28T00:33:04.000Z",
+      "uid": "35240-0cdac514-b4ff-49f9-a7bf-a591fbdd6e29"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.alpha-sense.com"
+    }
+  ]
+}

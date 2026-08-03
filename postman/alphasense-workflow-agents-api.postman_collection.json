@@ -1,0 +1,234 @@
+{
+  "info": {
+    "_postman_id": "0ed1ab92-dbe5-4415-9fb3-c376d2b44dbe",
+    "name": "AlphaSense Agent Authentication Workflow Agents API",
+    "description": "GraphQL surface for embedding AlphaSense market intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents, and the Document Search API behind an OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations into the AlphaSense corpus (filings, broker research, Tegus expert call transcripts, news, internal Enterprise Intelligence documents). Documented at https://developer.alpha-sense.com/agent-api/quickstart.\n\nContact Support:\n Name: AlphaSense Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T00:33:15.000Z",
+    "updatedAt": "2026-07-28T00:33:15.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0ed1ab92-dbe5-4415-9fb3-c376d2b44dbe"
+  },
+  "item": [
+    {
+      "name": "gql",
+      "item": [
+        {
+          "name": "Execute An AlphaSense GraphQL Operation",
+          "id": "2fa68eb2-45ca-4c07-a12f-a04bcc4f53f8",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"in30\": 16443130.608101115,\n    \"tempor_2\": false\n  },\n  \"operationName\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/gql",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gql"
+              ]
+            },
+            "description": "Single GraphQL endpoint that fronts the AlphaSense Agent API and Utility APIs. Submit a query or mutation in the body; the operation selects the surface (GenSearch, Deep Research, Workflow Agents, Document Search, Companies, Brokers, Watchlist, Trends, User, Download). Authentication is the bearer token from /auth plus the x-api-key header."
+          },
+          "response": [
+            {
+              "id": "2da20bfa-4fe9-45b8-8c91-37310c09aa51",
+              "name": "GraphQL response envelope.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"in30\": 16443130.608101115,\n    \"tempor_2\": false\n  },\n  \"operationName\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"ea_5\": -77341029.83570042,\n    \"commodo_d\": -53988973\n  },\n  \"errors\": [\n    {\n      \"message\": \"<string>\",\n      \"path\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"extensions\": {\n        \"minim_04\": true,\n        \"consequat7\": \"esse \"\n      }\n    },\n    {\n      \"message\": \"<string>\",\n      \"path\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"extensions\": {\n        \"mollita3\": 67404584.83738673,\n        \"ea7\": \"tempor\"\n      }\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T00:33:15.000Z",
+              "updatedAt": "2026-07-28T00:33:15.000Z",
+              "uid": "35240-2da20bfa-4fe9-45b8-8c91-37310c09aa51"
+            },
+            {
+              "id": "bb38e43e-80b5-4ebe-b2b0-c801db6b10b6",
+              "name": "Missing or invalid bearer token / API key.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"in30\": 16443130.608101115,\n    \"tempor_2\": false\n  },\n  \"operationName\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T00:33:15.000Z",
+              "updatedAt": "2026-07-28T00:33:15.000Z",
+              "uid": "35240-bb38e43e-80b5-4ebe-b2b0-c801db6b10b6"
+            },
+            {
+              "id": "f07348ca-8318-4bab-9029-d60e2c9c0b3b",
+              "name": "Rate or credit limit exceeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"in30\": 16443130.608101115,\n    \"tempor_2\": false\n  },\n  \"operationName\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T00:33:15.000Z",
+              "updatedAt": "2026-07-28T00:33:15.000Z",
+              "uid": "35240-f07348ca-8318-4bab-9029-d60e2c9c0b3b"
+            }
+          ],
+          "createdAt": "2026-07-28T00:33:15.000Z",
+          "updatedAt": "2026-07-28T00:33:15.000Z",
+          "uid": "35240-2fa68eb2-45ca-4c07-a12f-a04bcc4f53f8"
+        }
+      ],
+      "id": "197a30f7-1239-416c-b5a5-7489349aa85d",
+      "createdAt": "2026-07-28T00:33:15.000Z",
+      "updatedAt": "2026-07-28T00:33:15.000Z",
+      "uid": "35240-197a30f7-1239-416c-b5a5-7489349aa85d"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.alpha-sense.com"
+    }
+  ]
+}

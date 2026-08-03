@@ -1,0 +1,234 @@
+{
+  "info": {
+    "_postman_id": "59d74b75-ea36-482d-adf2-10523f96e1a1",
+    "name": "AlphaSense Agent Authentication Watchlist API",
+    "description": "GraphQL surface for embedding AlphaSense market intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents, and the Document Search API behind an OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations into the AlphaSense corpus (filings, broker research, Tegus expert call transcripts, news, internal Enterprise Intelligence documents). Documented at https://developer.alpha-sense.com/agent-api/quickstart.\n\nContact Support:\n Name: AlphaSense Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T00:33:14.000Z",
+    "updatedAt": "2026-07-28T00:33:14.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-59d74b75-ea36-482d-adf2-10523f96e1a1"
+  },
+  "item": [
+    {
+      "name": "gql",
+      "item": [
+        {
+          "name": "Execute An AlphaSense Utility GraphQL Operation",
+          "id": "4b825837-a6c9-4de6-912e-a1405d07641d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"laboris_e6\": 67737924,\n    \"incididunt8\": 43021407.11479515\n  },\n  \"operationName\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/gql",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gql"
+              ]
+            },
+            "description": "Same /gql endpoint as the Agent API; pick the Utility surface via the GraphQL operation name (`search`, `companies`, `brokers`, `watchlists`, `trends`, `user`, `downloads`)."
+          },
+          "response": [
+            {
+              "id": "fae9fb58-72fa-4176-86b8-891a862327a8",
+              "name": "GraphQL response envelope.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"laboris_e6\": 67737924,\n    \"incididunt8\": 43021407.11479515\n  },\n  \"operationName\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"temporebb\": true,\n    \"commodo9de\": -65965912.16265457\n  },\n  \"errors\": [\n    {\n      \"message\": \"<string>\",\n      \"path\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"extensions\": {\n        \"aute6\": -17293208\n      }\n    },\n    {\n      \"message\": \"<string>\",\n      \"path\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"extensions\": {\n        \"seddbf\": true,\n        \"nisi_8\": -27407197.47044915,\n        \"consequat2\": \"in Lorem dolor mollit\"\n      }\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T00:33:14.000Z",
+              "updatedAt": "2026-07-28T00:33:14.000Z",
+              "uid": "35240-fae9fb58-72fa-4176-86b8-891a862327a8"
+            },
+            {
+              "id": "8ff6de20-06b0-4255-bb42-22e99f71659b",
+              "name": "Missing or invalid bearer token / API key.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"laboris_e6\": 67737924,\n    \"incididunt8\": 43021407.11479515\n  },\n  \"operationName\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T00:33:14.000Z",
+              "updatedAt": "2026-07-28T00:33:14.000Z",
+              "uid": "35240-8ff6de20-06b0-4255-bb42-22e99f71659b"
+            },
+            {
+              "id": "c911aff7-cda6-4773-bf70-9a911245670b",
+              "name": "Rate or credit limit exceeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"laboris_e6\": 67737924,\n    \"incididunt8\": 43021407.11479515\n  },\n  \"operationName\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T00:33:14.000Z",
+              "updatedAt": "2026-07-28T00:33:14.000Z",
+              "uid": "35240-c911aff7-cda6-4773-bf70-9a911245670b"
+            }
+          ],
+          "createdAt": "2026-07-28T00:33:14.000Z",
+          "updatedAt": "2026-07-28T00:33:14.000Z",
+          "uid": "35240-4b825837-a6c9-4de6-912e-a1405d07641d"
+        }
+      ],
+      "id": "e9666fa2-c0d8-4bae-bb90-f2daa6182886",
+      "createdAt": "2026-07-28T00:33:14.000Z",
+      "updatedAt": "2026-07-28T00:33:14.000Z",
+      "uid": "35240-e9666fa2-c0d8-4bae-bb90-f2daa6182886"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.alpha-sense.com"
+    }
+  ]
+}

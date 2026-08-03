@@ -1,0 +1,247 @@
+{
+  "info": {
+    "_postman_id": "009f90b7-203f-45f6-8bac-244962786ab4",
+    "name": "AlphaSense Agent Authentication API",
+    "description": "GraphQL surface for embedding AlphaSense market intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents, and the Document Search API behind an OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations into the AlphaSense corpus (filings, broker research, Tegus expert call transcripts, news, internal Enterprise Intelligence documents). Documented at https://developer.alpha-sense.com/agent-api/quickstart.\n\nContact Support:\n Name: AlphaSense Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T00:32:54.000Z",
+    "updatedAt": "2026-07-28T00:32:55.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-009f90b7-203f-45f6-8bac-244962786ab4"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "Exchange AlphaSense Credentials For A Bearer Token",
+          "id": "c802015e-23dd-4965-8c4c-81b139093956",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "description": "(Required) OAuth 2.0 grant type. Must be 'password'.",
+                  "key": "grant_type",
+                  "value": "password"
+                },
+                {
+                  "description": "(Required) AlphaSense user email.",
+                  "key": "username",
+                  "value": "<email>"
+                },
+                {
+                  "description": "(Required) AlphaSense user password.",
+                  "key": "password",
+                  "value": "<string>"
+                },
+                {
+                  "description": "(Required) OAuth client identifier issued by AlphaSense.",
+                  "key": "client_id",
+                  "value": "<string>"
+                },
+                {
+                  "description": "(Required) OAuth client secret issued by AlphaSense.",
+                  "key": "client_secret",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth"
+              ]
+            },
+            "description": "OAuth 2.0 password-grant token endpoint. Submit the user email and password together with the client credentials issued by AlphaSense and the x-api-key header. Returns a bearer token that must be sent on every subsequent /gql request."
+          },
+          "response": [
+            {
+              "id": "c7416a79-0dd1-4e09-b281-e0eccb3156c3",
+              "name": "Authentication succeeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "description": "(Required) OAuth 2.0 grant type. Must be 'password'.",
+                      "key": "grant_type",
+                      "value": "password"
+                    },
+                    {
+                      "description": "(Required) AlphaSense user email.",
+                      "key": "username",
+                      "value": "<email>"
+                    },
+                    {
+                      "description": "(Required) AlphaSense user password.",
+                      "key": "password",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) OAuth client identifier issued by AlphaSense.",
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) OAuth client secret issued by AlphaSense.",
+                      "key": "client_secret",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"access_token\": \"<string>\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": \"<integer>\",\n  \"refresh_token\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T00:32:55.000Z",
+              "updatedAt": "2026-07-28T00:32:55.000Z",
+              "uid": "35240-c7416a79-0dd1-4e09-b281-e0eccb3156c3"
+            },
+            {
+              "id": "56efc40a-9b67-4b1e-ae95-d0c2d49b061b",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "description": "(Required) OAuth 2.0 grant type. Must be 'password'.",
+                      "key": "grant_type",
+                      "value": "password"
+                    },
+                    {
+                      "description": "(Required) AlphaSense user email.",
+                      "key": "username",
+                      "value": "<email>"
+                    },
+                    {
+                      "description": "(Required) AlphaSense user password.",
+                      "key": "password",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) OAuth client identifier issued by AlphaSense.",
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) OAuth client secret issued by AlphaSense.",
+                      "key": "client_secret",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T00:32:55.000Z",
+              "updatedAt": "2026-07-28T00:32:55.000Z",
+              "uid": "35240-56efc40a-9b67-4b1e-ae95-d0c2d49b061b"
+            }
+          ],
+          "createdAt": "2026-07-28T00:32:55.000Z",
+          "updatedAt": "2026-07-28T00:32:55.000Z",
+          "uid": "35240-c802015e-23dd-4965-8c4c-81b139093956"
+        }
+      ],
+      "id": "6b42f50c-b0da-407b-a221-a0bf605b845c",
+      "createdAt": "2026-07-28T00:32:55.000Z",
+      "updatedAt": "2026-07-28T00:32:55.000Z",
+      "uid": "35240-6b42f50c-b0da-407b-a221-a0bf605b845c"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.alpha-sense.com"
+    }
+  ]
+}

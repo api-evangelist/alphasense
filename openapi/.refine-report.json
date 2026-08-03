@@ -1,0 +1,38 @@
+{
+  "provider": "alphasense",
+  "sources": [
+    "alphasense-authentication-api-openapi.yml",
+    "alphasense-brokers-api-openapi.yml",
+    "alphasense-companies-api-openapi.yml",
+    "alphasense-deep-research-api-openapi.yml",
+    "alphasense-document-search-api-openapi.yml",
+    "alphasense-download-api-openapi.yml",
+    "alphasense-gensearch-api-openapi.yml",
+    "alphasense-ingestion-api-openapi.yml",
+    "alphasense-search-api-openapi.yml",
+    "alphasense-trends-api-openapi.yml",
+    "alphasense-user-api-openapi.yml",
+    "alphasense-watchlist-api-openapi.yml",
+    "alphasense-workflow-agents-api-openapi.yml"
+  ],
+  "outputs": [
+    "alphasense-authentication-api-openapi.yml",
+    "alphasense-brokers-api-openapi.yml",
+    "alphasense-companies-api-openapi.yml",
+    "alphasense-deep-research-api-openapi.yml",
+    "alphasense-document-search-api-openapi.yml",
+    "alphasense-download-api-openapi.yml",
+    "alphasense-gensearch-api-openapi.yml",
+    "alphasense-ingestion-api-openapi.yml",
+    "alphasense-search-api-openapi.yml",
+    "alphasense-trends-api-openapi.yml",
+    "alphasense-user-api-openapi.yml",
+    "alphasense-watchlist-api-openapi.yml",
+    "alphasense-workflow-agents-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
