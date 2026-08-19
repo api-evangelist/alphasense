@@ -1,0 +1,348 @@
+# AlphaSense Developer Portal — llms.txt
+# Machine-readable index for AI agents
+# Base URL: https://developer.alpha-sense.com
+
+## Overview
+AlphaSense provides AI-powered business intelligence APIs. This portal documents:
+- Agent API: GenSearch AI research, Workflow Agents (saved prompt bundles), MCP tools, On Behalf Of
+- Credit Usage: Admin dashboard and `aiUsage` GraphQL query (beta; account team enablement)
+- GraphQL API: Search, Companies, Brokers, User, Watchlist, Trends, Auth, Ingestion
+- Enterprise: Internal Content access within AlphaSense
+
+## Authentication
+
+AlphaSense is migrating toward a **refresh token grant** (long-lived token from the **API Keys** page
+in research.alpha-sense.com). Until your account team enables that beta flow, use the standard
+OAuth2 password grant below. SSO accounts (no AlphaSense password) must use the refresh-token flow
+when enabled.
+
+### Standard flow (username and password)
+- Endpoint: POST https://api.alpha-sense.com/auth
+- Initial auth: OAuth2 password grant (`grant_type=password`)
+- Token renewal: refresh token grant on the same endpoint (`grant_type=refresh_token`)
+- Headers: x-api-key (required)
+- Body (password grant): grant_type=password, username, password, client_id, client_secret
+- Body (refresh token): grant_type=refresh_token, client_id, client_secret, refresh_token
+- Token lifetime: use `expires_in` from the response (commonly 86400 seconds)
+- Response includes: access_token, refresh_token, token_type, expires_in
+- access_token is a signed JWT; treat as opaque
+- Token type: Bearer
+- Full guide: https://developer.alpha-sense.com/agent-api/authentication
+
+### SSO / refresh token flow (beta)
+- Requires account team enablement; generate refresh token on **Preferences → API Keys** in the web app
+- Token exchange endpoint: POST https://auth.research.alpha-sense.com/oauth/token
+- Body: grant_type=refresh_token, client_id, client_secret, refresh_token (+ x-api-key header)
+- Use for SSO/SAML sign-in and as the go-forward method when enabled on your account
+- Full guide: https://developer.alpha-sense.com/agent-api/sso-authentication
+
+### Example: Authenticate
+
+```bash
+curl -X POST https://api.alpha-sense.com/auth \
+  -H "x-api-key: $ALPHASENSE_API_KEY" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=password&username=$ALPHASENSE_EMAIL&password=$ALPHASENSE_PASSWORD&client_id=$ALPHASENSE_CLIENT_ID&client_secret=$ALPHASENSE_CLIENT_SECRET"
+```
+
+Response (200 OK):
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIs...",
+  "refresh_token": "abcdef-9876-54...",
+  "token_type": "Bearer",
+  "expires_in": 86400
+}
+```
+
+### Example: Refresh Token (same endpoint as password grant)
+
+```bash
+curl -X POST https://api.alpha-sense.com/auth \
+  -H "x-api-key: $ALPHASENSE_API_KEY" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=refresh_token&client_id=$ALPHASENSE_CLIENT_ID&client_secret=$ALPHASENSE_CLIENT_SECRET&refresh_token=$REFRESH_TOKEN"
+```
+
+### Example: SSO refresh token exchange (beta)
+
+```bash
+curl -X POST https://auth.research.alpha-sense.com/oauth/token \
+  -H "x-api-key: $ALPHASENSE_API_KEY" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=refresh_token&client_id=$ALPHASENSE_CLIENT_ID&client_secret=$ALPHASENSE_CLIENT_SECRET&refresh_token=$ALPHASENSE_REFRESH_TOKEN"
+```
+
+## GraphQL Endpoint
+- URL: POST https://api.alpha-sense.com/gql
+- Headers: x-api-key, clientid, Authorization: Bearer {token}, Content-Type: application/json
+
+## GenSearch API (Agent API)
+AI-powered research that returns markdown with cited sources.
+
+### Modes
+| Mode | Credits | Time | Mutation |
+|------|---------|------|----------|
+| fast | 10 | ~30s | genSearch { fast(input: $input) { id } } |
+| auto | 10 | ~30-90s | genSearch { auto(input: $input) { id } } |
+| thinkLonger | 25 | ~60-90s | genSearch { thinkLonger(input: $input) { id } } |
+| deepResearch | 100 | ~12-15min | genSearch { deepResearch(input: $input) { id } } |
+
+**Recommended default:** `auto` — automatically balances speed and depth at the same credit cost as `fast`.
+
+### Example: GenSearch Auto (Start + Poll)
+
+Start a GenSearch conversation:
+```bash
+curl -X POST https://api.alpha-sense.com/gql \
+  -H "x-api-key: $ALPHASENSE_API_KEY" \
+  -H "clientid: $ALPHASENSE_CLIENT_ID" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "mutation GenSearchAuto($input: GenSearchInput!) { genSearch { auto(input: $input) { id } } }",
+    "variables": { "input": { "prompt": "What are the latest trends in AI?" } }
+  }'
+```
+
+Response (200 OK):
+```json
+{
+  "data": {
+    "genSearch": {
+      "auto": { "id": "conv-abc-123" }
+    }
+  }
+}
+```
+
+Poll for results (repeat every 4s until progress >= 1.0):
+```bash
+curl -X POST https://api.alpha-sense.com/gql \
+  -H "x-api-key: $ALPHASENSE_API_KEY" \
+  -H "clientid: $ALPHASENSE_CLIENT_ID" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "query GetConversation($id: ID!) { genSearch { conversation(id: $id) { id markdown progress error { code } } } }",
+    "variables": { "id": "conv-abc-123" }
+  }'
+```
+
+Response (in progress):
+```json
+{
+  "data": {
+    "genSearch": {
+      "conversation": {
+        "id": "conv-abc-123",
+        "markdown": "Partial results so far...",
+        "progress": 0.4,
+        "error": null
+      }
+    }
+  }
+}
+```
+
+Response (complete):
+```json
+{
+  "data": {
+    "genSearch": {
+      "conversation": {
+        "id": "conv-abc-123",
+        "markdown": "# AI Trends\n\nAccording to recent earnings calls, the major trends include... [[1 • NVIDIA Q4 2024 Earnings Call]]",
+        "progress": 1.0,
+        "error": null
+      }
+    }
+  }
+}
+```
+
+### Polling
+Query: genSearch { conversation(id: $conversationId) { id markdown progress error { code } } }
+- Poll every 20 seconds
+- progress: 0.0 (started) to 1.0 (complete)
+- markdown: contains results with [[N • Source]] citations
+
+### Streaming
+Subscription with Accept: multipart/mixed;subscriptionSpec=1.0
+Delta types: GenSearchConversationCreate, GenSearchResponseMarkdownAppend, GenSearchResponseMarkdownSet
+Only available for fast mode.
+
+### Error Codes
+| Error Code | HTTP Status | Cause | Fix |
+|------------|-------------|-------|-----|
+| Unauthorized | 401 | Invalid or expired token | Use refresh token or re-authenticate; check `expires_in` for token lifetime |
+| Forbidden | 403 | Invalid API key | Verify x-api-key header value |
+| Bad Request | 400 | Invalid GraphQL syntax | Check query/mutation syntax and variable types |
+| Too Many Requests | 429 | Credit or QPS limit exceeded | Wait 60 seconds, then retry |
+| NO_DOCS | In error field | No documents matched the query | Broaden search terms or adjust time range |
+| TIMEOUT | In error field | Search took too long | Retry with a simpler query or use fast mode |
+
+### Rate Limits
+- Credit limits and polling rates are determined by your commercial agreement
+- HTTP 429 on exceeding limits
+
+## Credit Usage (beta)
+Account team must enable usage reporting before the dashboard or `aiUsage` query are available.
+
+### Credit Usage Dashboard (admin UI)
+- Web app view: credits used, remaining contract time, projections, usage by user, CSV export
+- Admins only; same metrics as the API
+- Guide: https://developer.alpha-sense.com/agent-api/ai-credit-usage-dashboard
+
+### Credit Usage API
+GraphQL query `aiUsage(input: AiUsageInput!)` on POST https://api.alpha-sense.com/gql
+
+Input (all optional): `from`, `to` (YYYY-MM-DD), `limit` (default 20, max 100), `offset`
+
+Response nodes: messageId, triggeredAt, contactEmail, mode, platform, credits
+
+Prerequisites: external API client, `ai:gensearch` feature enabled, valid Bearer token
+
+Guide: https://developer.alpha-sense.com/agent-api/ai-credit-usage-api
+
+## Workflow Agents
+Saved prompt + configuration bundles you execute by `id` instead of writing a free-form prompt. Two kinds:
+- `SYSTEM` — AlphaSense-built templates (e.g. Company Primer, Bull & Bear Debates). Ids look like `system__<24-hex>`.
+- `USER_CUSTOM` — agents the authenticated user has saved. Plain `<24-hex>` ids, no prefix.
+
+Running an agent creates a conversation thread. Most agents ask a clarifying question on the first turn and produce the real output on the follow-up. Credits are billed at the agent's fixed `executionMode` rate (`AUTO`=10, `THINK_LONGER`=25, `DEEP_RESEARCH`=100).
+
+### List agents (free, no credits)
+```graphql
+query ListAgents($limit: Int, $offset: Int) {
+  aiWorkflows {
+    workflows(limit: $limit, offset: $offset) {
+      data { id name workflowType executionMode }
+      hasMore
+    }
+  }
+}
+```
+Filter with `workflowTypes: [SYSTEM]` or `[USER_CUSTOM]`. Page with `limit`/`offset` until `hasMore: false`.
+
+### Run an agent
+```graphql
+mutation RunAgent($input: GenSearchAgentInput!) {
+  genSearch { agentExecution(input: $input) { id } }
+}
+```
+Variables: `{ "input": { "id": "system__6980b55a581e80c4c4a42a3f" } }` — returns a `conversationId` immediately. Poll `genSearch.thread(id: $id)` until the latest message's `response.progress == 1.0`.
+
+### Follow up (answer a clarifying question)
+```graphql
+mutation Answer($input: GenSearchInput!) {
+  genSearch { auto(input: $input) { id } }
+}
+```
+Variables: `{ "input": { "prompt": "Apple Inc.", "conversationId": "<id>" } }`. The agent's saved system prompt carries through every turn.
+
+### Streaming alternative
+Subscription `genSearchExecuteAgent` with `Accept: multipart/mixed;subscriptionSpec=1.0`. Emits `GenSearchConversationCreate`, then many `GenSearchResponseMarkdownAppend` chunks, then a final authoritative `GenSearchResponseMarkdownSet`. Mutation OR subscription, not both — each is a fresh run and consumes credits.
+
+## Document Search API
+
+### Example: Search Documents
+
+```bash
+curl -X POST https://api.alpha-sense.com/gql \
+  -H "x-api-key: $ALPHASENSE_API_KEY" \
+  -H "clientid: $ALPHASENSE_CLIENT_ID" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "query SearchDocuments($filter: SearchFilter!, $limit: Int!, $sorting: SearchSorting!) { search(filter: $filter, limit: $limit, sorting: $sorting) { cursor totalCount documents { id title releasedAt snippets(limit: 5) { statements { text } } } } }",
+    "variables": {
+      "filter": { "keyword": { "query": "AI strategy" }, "date": { "preset": "LAST_YEAR" } },
+      "limit": 20,
+      "sorting": { "field": "DATE", "direction": "DESC" }
+    }
+  }'
+```
+
+Response (200 OK):
+```json
+{
+  "data": {
+    "search": {
+      "cursor": "eyJsYXN0SWQiOiIxMjM0NTY3ODkwIn0=",
+      "totalCount": 342,
+      "documents": [
+        {
+          "id": "doc-abc-123",
+          "title": "Q4 Earnings Call Transcript - AI Strategy Overview",
+          "releasedAt": "2025-11-15T14:30:00Z",
+          "snippets": [
+            { "statements": [{ "text": "Our AI strategy focuses on three core pillars..." }] }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+## MCP Tools
+Two tools available via Model Context Protocol:
+
+### 1. alphasense_search
+GenSearch AI research.
+- **prompt** (string, required): The research question to answer
+- **mode** (string, optional): One of `auto` (default, recommended), `fast`, `thinkLonger`, `deepResearch`
+
+### 2. alphasense_document_search
+Document search with text snippets.
+- **keyword** (string, required): Search keywords
+- **limit** (integer, optional): Max documents to return (default: 100)
+- **date_preset** (string, optional): Time range filter. Valid values: `LAST_WEEK`, `LAST_MONTH`, `LAST_3_MONTHS`, `LAST_6_MONTHS`, `LAST_YEAR`, `LAST_2_YEARS`, `LAST_5_YEARS`
+- **company_ids** (array of strings, optional): Company ticker symbols, e.g. `["AAPL", "MSFT"]`
+- **source_ids** (array of strings, optional): Source type IDs, e.g. `["21000"]` for Expert Calls
+
+## Documentation Pages
+### Getting Started
+- Agent API Quickstart: https://developer.alpha-sense.com/agent-api/quickstart
+- Authentication: https://developer.alpha-sense.com/agent-api/authentication
+- SSO Authentication (beta): https://developer.alpha-sense.com/agent-api/sso-authentication
+- Which API: https://developer.alpha-sense.com/agent-api/which-api
+- MCP Server Setup: https://developer.alpha-sense.com/agent-api/mcp-server
+
+### Agent API
+- GenSearch Modes: https://developer.alpha-sense.com/agent-api/gensearch
+- Streaming: https://developer.alpha-sense.com/agent-api/streaming
+- Working with Responses: https://developer.alpha-sense.com/agent-api/response-parsing
+- Workflow Agents: https://developer.alpha-sense.com/agent-api/workflow-agents
+
+### Use Cases
+- Portfolio Monitoring at Scale: https://developer.alpha-sense.com/agent-api/use-cases/portfolio-monitoring
+
+### Credit Usage
+- Credits & Rate Limits: https://developer.alpha-sense.com/agent-api/credits-and-limits
+- Credit Usage API (beta): https://developer.alpha-sense.com/agent-api/ai-credit-usage-api
+- Credit Usage Dashboard (beta): https://developer.alpha-sense.com/agent-api/ai-credit-usage-dashboard
+
+### Utility APIs
+- Document Search: https://developer.alpha-sense.com/agent-api/search-api
+- Other APIs (filters, watchlists): https://developer.alpha-sense.com/agent-api/utility-apis
+- On Behalf Of Requests: https://developer.alpha-sense.com/agent-api/on-behalf-of
+
+### Other
+- Troubleshooting: https://developer.alpha-sense.com/agent-api/troubleshooting
+- GraphQL Explorer: https://developer.alpha-sense.com/explorer
+- Legacy API Quick Start: https://developer.alpha-sense.com/api/getting-started
+- Enterprise Docs: https://developer.alpha-sense.com/enterprise
+
+## Machine-Readable Resources
+- OpenAPI Spec: https://developer.alpha-sense.com/openapi/alphasense-gensearch.yaml
+- Agent Instructions: https://developer.alpha-sense.com/agent-instructions.md
+- Postman Collection: https://developer.alpha-sense.com/postman/alphasense-agent-api.json
+
+## Need More Detail?
+Any of the documentation pages and machine-readable resources listed above can be fetched directly by your LLM. Just ask it to retrieve the full page for deeper guidance, complete code examples, and additional context.
+
+## Support
+- Email: support@alpha-sense.com
+- Portal: https://developer.alpha-sense.com
