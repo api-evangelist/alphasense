@@ -65,6 +65,10 @@ apis:
   humanURL: https://developer.alpha-sense.com/api/getting-started
   baseURL: https://api.alpha-sense.com
   tags:
+  - User
+  - Account
+  - Identity
+  tags_raw:
   - Users
   - Accounts
   - Identity
@@ -95,6 +99,10 @@ apis:
   humanURL: https://developer.alpha-sense.com/agent-api/quickstart
   baseURL: https://api.alpha-sense.com
   tags:
+  - MCP
+  - Agents
+  - Tools
+  tags_raw:
   - MCP
   - Model Context Protocol
   - Agents
@@ -478,6 +486,8 @@ apis:
   humanURL: https://developer.alpha-sense.com/agent-api/quickstart
   baseURL: https://api.alpha-sense.com
   tags:
+  - Downloads
+  tags_raw:
   - Download
   properties:
   - type: OpenAPI
