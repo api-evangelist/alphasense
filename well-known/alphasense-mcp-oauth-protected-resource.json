@@ -1,0 +1,1 @@
+{"resource":"https://mcp.alpha-sense.com/","authorization_servers":["https://auth.research.alpha-sense.com"],"scopes_supported":["openid","profile","email","offline_access"],"bearer_methods_supported":["header"],"resource_name":"AlphaSense MCP Server"}

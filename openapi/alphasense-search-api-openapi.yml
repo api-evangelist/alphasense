@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: AlphaSense Agent Authentication Search API
-  description: GraphQL surface for embedding AlphaSense market intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents, and the Document Search API behind an OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations into the AlphaSense corpus (filings, broker research, Tegus expert call transcripts, news, internal Enterprise Intelligence documents). Documented at https://developer.alpha-sense.com/agent-api/quickstart.
+  title: AlphaSense Utility Search API
+  description: AlphaSense's GraphQL-fronted Utility APIs covering Search, Companies, Brokers, Watchlist, Trends, User, Download / Export, and the REST Ingestion API used by Enterprise Intelligence customers. All GraphQL surfaces share the single /gql endpoint at api.alpha-sense.com and the same OAuth 2.0 + x-api-key authentication as the Agent API; the Ingestion API is REST under /services/i/ingestion-api/v1/. Documented at https://developer.alpha-sense.com/api/getting-started.
   version: '1.0'
   contact:
     name: AlphaSense Developer Support
@@ -15,7 +15,6 @@ servers:
   variables:
     customerDomain:
       default: customer.alpha-sense.cloud
-      description: Customer-provisioned Private Cloud domain.
 security:
 - bearerAuth: []
   apiKeyHeader: []
@@ -93,5 +92,5 @@ components:
       in: header
       name: x-api-key
 externalDocs:
-  description: AlphaSense Agent API Quickstart
-  url: https://developer.alpha-sense.com/agent-api/quickstart
+  description: AlphaSense API Getting Started
+  url: https://developer.alpha-sense.com/api/getting-started

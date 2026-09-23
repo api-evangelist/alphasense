@@ -1,38 +1,30 @@
 {
   "provider": "alphasense",
   "sources": [
-    "alphasense-authentication-api-openapi.yml",
-    "alphasense-brokers-api-openapi.yml",
-    "alphasense-companies-api-openapi.yml",
-    "alphasense-deep-research-api-openapi.yml",
-    "alphasense-document-search-api-openapi.yml",
-    "alphasense-download-api-openapi.yml",
-    "alphasense-gensearch-api-openapi.yml",
-    "alphasense-ingestion-api-openapi.yml",
-    "alphasense-search-api-openapi.yml",
-    "alphasense-trends-api-openapi.yml",
-    "alphasense-user-api-openapi.yml",
-    "alphasense-watchlist-api-openapi.yml",
-    "alphasense-workflow-agents-api-openapi.yml"
+    "_original/alphasense-agent-api-openapi.yml",
+    "_original/alphasense-utility-api-openapi.yml"
   ],
   "outputs": [
     "alphasense-authentication-api-openapi.yml",
-    "alphasense-brokers-api-openapi.yml",
-    "alphasense-companies-api-openapi.yml",
-    "alphasense-deep-research-api-openapi.yml",
-    "alphasense-document-search-api-openapi.yml",
-    "alphasense-download-api-openapi.yml",
     "alphasense-gensearch-api-openapi.yml",
     "alphasense-ingestion-api-openapi.yml",
-    "alphasense-search-api-openapi.yml",
-    "alphasense-trends-api-openapi.yml",
-    "alphasense-user-api-openapi.yml",
-    "alphasense-watchlist-api-openapi.yml",
-    "alphasense-workflow-agents-api-openapi.yml"
+    "alphasense-search-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "alphasense-agent-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "alphasense-agent-api-openapi.yml: multi-axis tagging (5 tags, 2 first tags, 2.50x duplication over 2 operations) \u2014 split on first tag, 1 operations narrowed",
+    "alphasense-utility-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "alphasense-utility-api-openapi.yml: multi-axis tagging (8 tags, 2 first tags, 3.00x duplication over 3 operations) \u2014 split on first tag, 1 operations narrowed",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "alphasense-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alphasense-gensearch-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alphasense-ingestion-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alphasense-search-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
