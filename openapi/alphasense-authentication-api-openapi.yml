@@ -47,22 +47,6 @@ paths:
           description: Authentication failed.
 components:
   schemas:
-    AuthTokenResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-          description: Bearer token to send on subsequent /gql calls.
-        token_type:
-          type: string
-          enum:
-          - Bearer
-        expires_in:
-          type: integer
-          description: Token lifetime in seconds.
-        refresh_token:
-          type: string
-          description: Refresh token (if issued).
     AuthTokenRequest:
       type: object
       required:
@@ -92,6 +76,22 @@ components:
           type: string
           format: password
           description: OAuth client secret issued by AlphaSense.
+    AuthTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: Bearer token to send on subsequent /gql calls.
+        token_type:
+          type: string
+          enum:
+          - Bearer
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds.
+        refresh_token:
+          type: string
+          description: Refresh token (if issued).
   securitySchemes:
     bearerAuth:
       type: http

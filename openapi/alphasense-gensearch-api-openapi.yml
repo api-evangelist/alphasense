@@ -49,30 +49,6 @@ paths:
           description: Rate or credit limit exceeded.
 components:
   schemas:
-    GraphQLResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          additionalProperties: true
-          description: GraphQL response data payload.
-        errors:
-          type: array
-          description: GraphQL errors, if any.
-          items:
-            $ref: '#/components/schemas/GraphQLError'
-    GraphQLError:
-      type: object
-      properties:
-        message:
-          type: string
-        path:
-          type: array
-          items:
-            type: string
-        extensions:
-          type: object
-          additionalProperties: true
     GraphQLRequest:
       type: object
       required:
@@ -88,6 +64,30 @@ components:
         operationName:
           type: string
           description: Named operation when the document defines more than one.
+    GraphQLError:
+      type: object
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        extensions:
+          type: object
+          additionalProperties: true
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          description: GraphQL response data payload.
+        errors:
+          type: array
+          description: GraphQL errors, if any.
+          items:
+            $ref: '#/components/schemas/GraphQLError'
   securitySchemes:
     bearerAuth:
       type: http
