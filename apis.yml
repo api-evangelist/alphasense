@@ -60,7 +60,7 @@ tags:
 - MCP
 - GraphQL
 created: '2026-05-23'
-modified: '2026-05-23'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: alphasense:trends-api
@@ -431,6 +431,8 @@ apis:
   - type: Examples
     url: examples/alphasense-auth-token-example.json
 common:
+- url: https://www.alpha-sense.com/newsroom/
+  type: Blog
 - type: ContributionGuide
   url: https://github.com/AlphaSense-Engineering/privatecloud-cli/blob/main/CONTRIBUTING.md
 - type: PostmanWorkspace
