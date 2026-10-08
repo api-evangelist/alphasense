@@ -159,3 +159,71 @@ plans:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  - seat
+  - subscription
+  units:
+  - credit
+  - data
+  - object
+  - period
+  - request
+  - seat
+  plans:
+  - name: AlphaSense Platform (Named-Seat Enterprise)
+    access: enterprise
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - year
+  - name: Tegus Expert Insights (Add-On)
+    access: enterprise
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - year
+  - name: Tegus Expert Call Services (Concierge)
+    access: enterprise
+    model: metered
+    model_how: derived
+    units:
+    - request
+    periods:
+    - per-use
+  - name: Enterprise Intelligence (Add-On)
+    access: enterprise
+    model: hybrid
+    model_how: derived
+    units:
+    - data
+    - object
+    periods:
+    - month
+    - per-use
+  - name: Enterprise Intelligence Private Cloud
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - period
+    periods:
+    - year
+  - name: Agent API + MCP (Embedding Contract)
+    access: enterprise
+    model: hybrid
+    model_how: derived
+    units:
+    - credit
+    - period
+    periods:
+    - per-use
+    - year
