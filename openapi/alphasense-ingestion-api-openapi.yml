@@ -70,23 +70,6 @@ paths:
           description: Job not found.
 components:
   schemas:
-    IngestionJob:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - accepted
-          - processing
-          - ready
-          - failed
-        documentId:
-          type: string
-          description: AlphaSense document id once ingestion completes.
-        message:
-          type: string
     IngestionDocumentRequest:
       type: object
       required:
@@ -110,6 +93,23 @@ components:
           type: string
           enum:
           - internal
+    IngestionJob:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - accepted
+          - processing
+          - ready
+          - failed
+        documentId:
+          type: string
+          description: AlphaSense document id once ingestion completes.
+        message:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
