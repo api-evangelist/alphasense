@@ -1,0 +1,397 @@
+# AlphaSense (alphasense)
+
+<!-- API-EVANGELIST-PROVENANCE:BEGIN -->
+> ### About this repository
+>
+> **This is not our API.** This repository is an independent, third-party profile of a company's
+> **publicly available** API surface, maintained by [API Evangelist](https://apievangelist.com).
+> API Evangelist does not operate, host, resell, or support this company's APIs, and is not
+> affiliated with or endorsed by the company unless stated on the profile.
+>
+> **Where the information came from.** Everything here is assembled from material a member of the
+> public can reach with a browser and no credentials — the company's own website, developer portal
+> and documentation, the specifications it publishes for public use (OpenAPI, AsyncAPI, JSON Schema,
+> `apis.json`, `llms.txt` and similar), its public repositories, and its public status, pricing and
+> changelog pages. **Nothing here is obtained by breaching a system, defeating an access control, or
+> using credentials of any kind.**
+>
+> **The rating is an independent assessment.** The Kin Score and Agent Readiness rating are
+> independently calculated scores of a company's *public* API artifacts, produced by API Evangelist
+> against a published rubric. They are not certifications, endorsements, security assessments, or
+> audits, and they score published artifacts — not the quality, safety, or security of the software.
+>
+> **Corrections, re-scores, and removal are free.** No partnership, contract, or purchase is
+> required, and you do not need to justify the request.
+>
+> - **Something wrong?** Open an issue on this repository, or email
+>   [info@apievangelist.com](mailto:info@apievangelist.com).
+> - **Published something new?** Ask for a re-score and we will re-run the rating.
+> - **Want the listing taken down?** Say so and we will honor it. The profile is reduced to your
+>   company name, a factual description, and a link to your own site, and the company is recorded as
+>   **unrated** — never scored zero for having asked.
+>
+> **Response times.** Acknowledgement within **one business day**; removal or restriction within
+> **two business days**; corrections and re-scores within **five business days**.
+>
+> **Not from the company, and here with a question?** You are welcome here — we would rather be the
+> front line and point you the right way than have a good report go nowhere. What this repository
+> can answer is narrow, though, so it is worth knowing who you are actually looking for:
+>
+> - **A question about how the API works, an account, billing, or a bug in the service** — that is
+>   the company's own support, not us. We profile this API; we do not operate it and cannot see
+>   your account.
+> - **A bug in an open-source project we only catalog** — file it on that project's own repository.
+>   This has happened with a real and correct bug report that reached us instead of the people who
+>   could fix it, which helped nobody.
+> - **Anything about this listing itself** — the description, the tags, the rating, a missing or
+>   wrong artifact — is ours. Open an issue here.
+> - **Not sure, or something general about API Evangelist or APIs.io** — open an issue on the
+>   [APIs.io Inbox](https://github.com/api-search/inbox) and we will route it.
+>
+> **This repository contains no software, and we will never ask you to download anything.** There is
+> no build, release, installer, or binary here — only text and machine-readable API descriptions, so
+> there is nothing here that can be "corrupt" or need "repairing". Any issue, comment, or email
+> claiming otherwise and offering a download link is not from us and is hostile. Do not follow the
+> link; it is a lure. Report it to GitHub and, if you like, tell us at
+> [info@apievangelist.com](mailto:info@apievangelist.com) so we can take it down.
+>
+> **On a security or compliance team?** Email
+> [info@apievangelist.com](mailto:info@apievangelist.com) with *security* in the subject line and
+> you will get a person, not a form. We will tell you exactly which public URLs this profile was
+> built from so your team can see the same surface we did, and we will take the listing down on
+> request while you work through it.
+>
+> Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
+<!-- API-EVANGELIST-PROVENANCE:END -->
+
+AlphaSense is an AI-powered market intelligence and search platform used by hedge funds, banks, corporates, consulting firms, and law firms to accelerate research and decision-making. The platform unifies 500M+ public and private documents - SEC filings, broker research from 1,500+ firms, news, earnings call transcripts, internal company content, and 260,000+ Tegus expert call transcripts (Tegus was acquired in December 2023 for ~$930M) - behind a generative search and agent layer (GenSearch, Deep Research, Workflow Agents). The developer surface is gated, enterprise-only, and is split across two contracts: an Agent API for embedding GenSearch / Deep Research / MCP tools into customer AI agents, and a set of Utility APIs (Search, Brokers, Companies, Watchlist, Trends, User, Download, Ingestion) for direct programmatic access. Both are exposed over a single OAuth 2.0-protected GraphQL endpoint at https://api.alpha-sense.com/gql, with a companion REST Ingestion API for Enterprise Intelligence customers. AlphaSense Enterprise Intelligence Private Cloud ships with a public Go CLI (AlphaSense-Engineering/privatecloud-cli) for installing and validating the Kubernetes-hosted environment in a customer's own VPC.
+
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/alphasense/refs/heads/main/apis.yml)
+
+## Tags
+
+- Market Intelligence
+- Financial Research
+- Search
+- Generative AI
+- AI Agents
+- Expert Calls
+- Document Intelligence
+- Enterprise Intelligence
+- MCP
+- GraphQL
+
+## Timestamps
+
+- **Created:** 2026-05-23
+- **Modified:** 2026-05-23
+
+## APIs
+
+### AlphaSense Agent API
+
+GraphQL surface for embedding AlphaSense intelligence into customer AI agents. Wraps GenSearch (auto / fast / thinkLonger / deepResearch modes), Workflow Agents (pre-built and custom), and the Document Search API behind a single OAuth 2.0 + API-key-protected /gql endpoint. Returns markdown-formatted answers with inline citations to the underlying AlphaSense source documents (filings, transcripts, broker research, Tegus calls). Designed for agentic workflows that need first-result in under five minutes.
+
+- **Human URL:** [https://developer.alpha-sense.com/agent-api/quickstart](https://developer.alpha-sense.com/agent-api/quickstart)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- GraphQL
+- Generative AI
+- Agents
+- GenSearch
+- Deep Research
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/agent-api/quickstart)
+- [Authentication](https://developer.alpha-sense.com/api/getting-started)
+- [OpenAPI](openapi/alphasense-agent-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/alphasense-agent-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-agent-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/alphasense-gensearch-conversation-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/alphasense-citation-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/alphasense-workflow-agent-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/alphasense-gensearch-conversation-structure.json)
+- [JSON Structure](json-structure/alphasense-citation-structure.json)
+- [JSON Structure](json-structure/alphasense-workflow-agent-structure.json)
+- [Example](examples/alphasense-gensearch-conversation-example.json)
+- [Example](examples/alphasense-citation-example.json)
+- [Example](examples/alphasense-workflow-agent-example.json)
+
+### AlphaSense Search API
+
+GraphQL search over the full AlphaSense content library (500M+ documents spanning SEC filings, broker research from 1,500+ firms, news, earnings call transcripts, and Tegus expert interviews). Supports keyword and semantic filters, date presets, document-type filters, watchlists, and smart synonyms. Operates against the same OAuth-protected /gql endpoint as the Agent API. Used to drive in-app search and retrieval flows that do not need agentic answer synthesis.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- GraphQL
+- Search
+- Documents
+- Retrieval
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [OpenAPI](openapi/alphasense-utility-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/alphasense-document-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/alphasense-document-structure.json)
+- [Example](examples/alphasense-document-example.json)
+- [Example](examples/alphasense-tegus-document-example.json)
+
+### AlphaSense Ingestion API
+
+REST surface (`/services/i/ingestion-api/v1/...`) used by Enterprise Intelligence customers to push their own internal documents - research notes, board decks, CRM exports, meeting transcripts - into AlphaSense so the same GenSearch and Deep Research layer can answer over external market intelligence and internal company content together. Available on SaaS (https://api.alpha-sense.com) and Private Cloud (customer-hosted domain) deployments.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- REST
+- Ingestion
+- Enterprise Intelligence
+- Internal Content
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [OpenAPI](openapi/alphasense-utility-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/alphasense-ingestion-job-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/alphasense-ingestion-job-structure.json)
+- [Example](examples/alphasense-ingestion-job-example.json)
+
+### AlphaSense Companies API
+
+GraphQL operations for resolving and enriching companies in the AlphaSense entity graph - ticker / name / CIK / ISIN lookup, parent / subsidiary relationships, sector and industry tagging, and references that join into Search and GenSearch filters.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- Companies
+- Entities
+- Reference Data
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [OpenAPI](openapi/alphasense-utility-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/alphasense-company-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/alphasense-company-structure.json)
+- [Example](examples/alphasense-company-example.json)
+
+### AlphaSense Brokers API
+
+Lookup and metadata for the 1,500+ broker research firms whose content AlphaSense licenses. Resolves broker identifiers used by the Search API and exposes coverage signals for analysts filtering by source.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- Brokers
+- Research
+- Reference Data
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [OpenAPI](openapi/alphasense-utility-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/alphasense-broker-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/alphasense-broker-structure.json)
+- [Example](examples/alphasense-broker-example.json)
+
+### AlphaSense Watchlist API
+
+Create, read, update, and delete user watchlists - persisted bundles of companies, tickers, and saved searches that drive personalized alerts, digests, and re-ranked Search results.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- Watchlists
+- Personalization
+- Alerts
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [OpenAPI](openapi/alphasense-utility-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/alphasense-watchlist-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/alphasense-watchlist-structure.json)
+- [Example](examples/alphasense-watchlist-example.json)
+
+### AlphaSense Trends API
+
+Time-series operations for theme, keyword, and topic frequency across the document corpus - the back end behind AlphaSense's Trend visualisations and competitive-intelligence dashboards.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- Trends
+- Analytics
+- Time Series
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [Postman Collection](collections/alphasense-agent-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-agent-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### AlphaSense User API
+
+User and account management operations covering profile, preferences, session, and entitlement metadata for integrating the AlphaSense experience into a host application or single-sign-on flow.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- Users
+- Accounts
+- Identity
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [Postman Collection](collections/alphasense-agent-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-agent-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### AlphaSense Download / Export API
+
+Bulk export and download operations for documents, search results, and report PDFs - used to push AlphaSense content into downstream data warehouses, vaults, and BI tools.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- Downloads
+- Export
+- Bulk
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [Postman Collection](collections/alphasense-agent-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-agent-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### AlphaSense Authentication API
+
+OAuth 2.0 password-grant token endpoint at POST /auth. Clients submit email, password, client_id, and client_secret together with an x-api-key header to receive a bearer token used on every subsequent Agent or Utility API call. The same flow works against SaaS (https://api.alpha-sense.com) and Private Cloud (https://{your-domain}/) base URLs.
+
+- **Human URL:** [https://developer.alpha-sense.com/api/getting-started](https://developer.alpha-sense.com/api/getting-started)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- Authentication
+- OAuth 2.0
+- Token
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/api/getting-started)
+- [OpenAPI](openapi/alphasense-agent-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/alphasense-agent-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-agent-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Example](examples/alphasense-auth-token-example.json)
+
+### AlphaSense MCP Server
+
+Model Context Protocol surface that lets MCP-aware AI clients (Claude, Cursor, ChatGPT-style desktop hosts, in-house agent frameworks) call GenSearch, ThinkLonger, and Deep Research as tools without writing a bespoke GraphQL integration. The MCP server brokers the OAuth flow and enforces the customer's Agent API entitlement.
+
+- **Human URL:** [https://developer.alpha-sense.com/agent-api/quickstart](https://developer.alpha-sense.com/agent-api/quickstart)
+- **Base URL:** `https://api.alpha-sense.com`
+
+#### Tags
+
+- MCP
+- Model Context Protocol
+- Agents
+- Tools
+
+#### Properties
+
+- [Documentation](https://developer.alpha-sense.com/agent-api/quickstart)
+- [Postman Collection](collections/alphasense-agent-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-agent-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### AlphaSense Private Cloud CLI
+
+Go-based CLI (AlphaSense-Engineering/privatecloud-cli, Apache-2.0-ish "Other" license) used by Enterprise Intelligence Private Cloud customers to bootstrap and validate the Kubernetes cluster that hosts AlphaSense inside their own cloud account. Ships `check` and `install` commands that lay down Crossplane and platform namespaces, generate the required ServiceAccounts, Roles, ClusterRoles, and Pods, and reconcile against per-version compatibility matrices.
+
+- **Human URL:** [https://github.com/AlphaSense-Engineering/privatecloud-cli](https://github.com/AlphaSense-Engineering/privatecloud-cli)
+- **Base URL:** `https://github.com/AlphaSense-Engineering/privatecloud-cli`
+
+#### Tags
+
+- CLI
+- Private Cloud
+- Kubernetes
+- Enterprise Intelligence
+
+#### Properties
+
+- [GitHub Repository](https://github.com/AlphaSense-Engineering/privatecloud-cli)
+- [Release Notes](https://github.com/AlphaSense-Engineering/privatecloud-cli/releases)
+- [Postman Collection](collections/alphasense-agent-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-agent-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/alphasense-utility-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/alphasense-utility-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+## Common Properties
+
+- [Website](https://www.alpha-sense.com/)
+- [Developer Portal](https://developer.alpha-sense.com/)
+- [Documentation](https://developer.alpha-sense.com/)
+- [Getting Started](https://developer.alpha-sense.com/api/getting-started)
+- [Quickstart](https://developer.alpha-sense.com/agent-api/quickstart)
+- [Authentication](https://developer.alpha-sense.com/api/getting-started)
+- [GitHub Organization](https://github.com/AlphaSense-Engineering)
+- [Trust Center](https://trust.alpha-sense.com/)
+- [Support](https://help.alpha-sense.com/)
+- [LinkedIn](https://www.linkedin.com/company/alphasense)
+- [Plans](plans/alphasense-plans-pricing.yml)
+- [Rate Limits](rate-limits/alphasense-rate-limits.yml)
+- [Fin Ops](finops/alphasense-finops.yml)
+- [Spectral Rules](rules/alphasense-rules.yml)
+- [Vocabulary](vocabulary/alphasense-vocabulary.yml)
+- [JSON-LD](json-ld/alphasense-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+- [Features](undefined)
+- [Use Cases](undefined)
+- [Integrations](undefined)
+- [Solutions](undefined)
+- [L L Ms Txt](https://developer.alpha-sense.com/llms.txt)
+
+## Maintainers
+
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com
